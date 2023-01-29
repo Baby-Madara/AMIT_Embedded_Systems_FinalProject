@@ -1,0 +1,31 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"std_types.h": "c",
+			"dio_interface.h": "c",
+			"dio_private.h": "c",
+			"bitmath.h": "c",
+			"lcd_interface.h": "c",
+			"delay.h": "c",
+			"keypad.h": "c",
+			"string.h": "c",
+			"sevensegment.h": "c",
+			"externalinterrupts.h": "c",
+			"mem_map.h": "c",
+			"timers.h": "c",
+			"ex_interrupts_private.h": "c",
+			"ex_interrupts.h": "c",
+			"servo.h": "c",
+			"interrupt.h": "c",
+			"leds.h": "c",
+			"lcd.h": "c",
+			"buttons.h": "c",
+			"dio.h": "c"
+		}
+	}
+}
