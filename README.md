@@ -1,17 +1,21 @@
-# AMIT Interfacing AF VSCode
+# AMIT Embedded Systems Final Project
 
-This is Embedded Systems interfacing course codes
+This is Embedded Systems Course Final Project
 
 ## Documentation
 
-### Author
+### Authors
 
-* Ahmed Farahat:
+| Name          | gitHub username | email address                                          |               |
+|---------------|-----------------|--------------------------------------------------------|---------------|
+| Ahmed Farahat | @Baby-Madara    | ahmed.farahat1@msa.edu.eg - ahmedfarahat1177@gmail.com | +201119027639 |
+| Shehab Ashraf |                 |||
 
-  * @Baby-Madara
-  * ahmed.farahat1@msa.edu.eg
-  * ahmedfarahat1177@gmail.com
-  * +201119027639
+
+
+
+
+
 
 ### Details
 
