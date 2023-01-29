@@ -23,7 +23,7 @@ ATMega32 drivers for AMIT Kit with the following hardware (in the HAL layer). Us
 
 ## Date
 
-    start date: 24-09-2022                      -                  completed:     __-__-2022
+    start date: 23-01-2023                      -                  completed:     __-__-2023
 
 ### Aknowledgement
 
@@ -34,9 +34,10 @@ learned embedded systems interfacing from different instructors but special than
     - ADC                 |201
     - Interrupts          |
     - DIO                 |
-    - Registers Page      ||    327
+    - Registers Page     |||    327
 
 ### Pinout
+(with HAL connections for the AMIT AVR kit)
 
                                     [PDIP]:
                                __________________
