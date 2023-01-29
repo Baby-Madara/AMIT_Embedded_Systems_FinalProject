@@ -10,6 +10,9 @@ This is Embedded Systems Course Final Project
 |---------------|-----------------|--------------------------------------------------------|---------------|
 | Ahmed Farahat | @Baby-Madara    | ahmed.farahat1@msa.edu.eg - ahmedfarahat1177@gmail.com | +201119027639 |
 | Shehab Ashraf |                 |||
+| Yousef Gamal  |                 |||
+| Tarek Fouad   |                 |||
+| Mohamed Magdy |                 |||
 
 
 
@@ -79,7 +82,7 @@ learned embedded systems interfacing from different instructors but special than
 
 * LCD and SevenSegments cannot be used together
 * sevenSegments must be used with parallel programming (NO SEQUENTIAL DELAY CAN BE USED to work properly)
-*
+
 
 ### Main
 
