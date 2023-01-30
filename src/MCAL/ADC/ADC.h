@@ -75,6 +75,14 @@
 #define ADC_REF_AVCC 			1 	//AVCC           with external capacitor at AREF pin
 #define ADC_REF_2_56_INTERNAL 	3 	//internal 2.56V with external capacitor at AREF pin
 
+#define ADC_AUTO_TRIG_SRC_FREERUN                0
+#define ADC_AUTO_TRIG_SRC_ANALOGCOMP             1
+#define ADC_AUTO_TRIG_SRC_EX_INT0                2
+#define ADC_AUTO_TRIG_SRC_TIMER0_COMP_MATCH      3
+#define ADC_AUTO_TRIG_SRC_TIMER0_OVERFLOW        4
+#define ADC_AUTO_TRIG_SRC_TIMER_COMP_MATCH_B     5
+#define ADC_AUTO_TRIG_SRC_TIMER1_OVERFLOW        6
+#define ADC_AUTO_TRIG_SRC_TIMER1_COMP_MATCH      7
 
 
 
@@ -99,6 +107,8 @@ void ADC_setValueRightAdj(void);
 // ADC Auto trigger doesn't work properly when reading from different chanels!
 void ADC_EnableAutoTrigger();
 void ADC_DisableAutoTrigger();
+void ADC_TriggeringSource(u8 src);
+
 void ADC_IntEnable		(	void	);
 void ADC_IntDisable		(	void	);
 void ADC_IntSetCallBack	(	void(*IntPtr)(void)	);

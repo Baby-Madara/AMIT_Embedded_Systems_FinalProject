@@ -106,6 +106,12 @@ void ADC_DisableAutoTrigger(){
 	CLEAR_BIT(ADCSRA, ADATE);
 }
 
+void ADC_TriggeringSource(u8 src){
+	WRITE_BIT(SFIOR, ADTS2, GET_BIT(src,2) );
+	WRITE_BIT(SFIOR, ADTS1, GET_BIT(src,1) );
+	WRITE_BIT(SFIOR, ADTS0, GET_BIT(src,1) );
+}
+
 void ADC_IntEnable		(	void	){
 	GI_Enable();
 	SET_BIT(ADCSRA, ADIE);
