@@ -20,10 +20,12 @@ void ADC_Init(u8 ps){
 }
 
 u16 ADC_Read(u8 chanel){
+	static volatile u8 prevChanel = 0;
 	volatile u16 read =0;
 
 	CLEAR_BIT(DDRA,  chanel);
 	CLEAR_BIT(PORTA, chanel);
+	
 	
 	// choosing channel
 	WRITE_BIT(ADMUX, MUX0, 		GET_BIT(chanel, 0)	);
@@ -32,14 +34,25 @@ u16 ADC_Read(u8 chanel){
 	WRITE_BIT(ADMUX, MUX3, 		GET_BIT(chanel, 3)	);
 	WRITE_BIT(ADMUX, MUX4, 		GET_BIT(chanel, 4)	);
 
+	// if ADC was running on a previously selected chanel, wait till it it finishes (ADIF=1), clear ADIF, and set the prevChanel to the current one, then you can continue normally
+	if( (GET_BIT(ADCSRA,ADSC) == HIGH) && (prevChanel != chanel)){
+		prevChanel=chanel;
+		if(	!GET_BIT(ADCSRA, ADIE) ){
+			while(!GET_BIT(ADCSRA, ADIF))	;		//wait
+			SET_BIT(ADCSRA, ADIF);					//clear Interrupt flag by writing 1}
+		}
+	}
+
 	SET_BIT(ADCSRA,ADSC);   				//Start Conversion
-	while(GET_BIT(ADCSRA, ADIF)==0)	;		//wait
+	if(	!GET_BIT(ADCSRA, ADIE) ){
+		while(!GET_BIT(ADCSRA, ADIF))	;		//wait
+		SET_BIT(ADCSRA, ADIF);					//clear Interrupt flag by writing 1
+	}
 
 	// reading value
 	read 	= ((ADCL) | ((u16)ADCH <<8));
 	// read	= (((u16)ADCH <<8) | (ADCL));	//YOU CANT DO THAT BECAUSE DATA WILL NOT BE UPDATED AGAIN!!!
 
-	SET_BIT(ADCSRA, ADIF);					//clear Interrupt flag by writing 1
 	return read;
 
 }
@@ -111,6 +124,6 @@ ISR(ADC_vect){
 	CLEAR_BIT(ADCSRA, ADIE);
 	SET_BIT(ADCSRA, ADIF);
 	ADC_Int_fptr();
-	SET_BIT(ADCSRA, ADIE);
+	ADC_IntEnable();
 }
 

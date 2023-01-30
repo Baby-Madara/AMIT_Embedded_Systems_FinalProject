@@ -56,17 +56,21 @@
  */
 
 
+
+
+// #include <avr/io.h>
+// #include <avr/interrupt.h>
 #include <util/delay.h>
 
 #include "Memory_map/mem_map.h"
 #include "UTILS/BitMath.h"
-
 #include "MCAL/DIO/DIO.h"
 #include "HAL/LEDs/LEDs.h"
 #include "HAL/Buttons/Buttons.h"
 #include "HAL/LCD/LCD.h"
 #include "HAL/KeyPad/KeyPad.h"
 #include "HAL/SevenSegment/SevenSegment.h"
+
 
 #include "MCAL/Ex_Interrupts/Ex_Interrupts.h"
 #include "MCAL/ADC/ADC.h"
@@ -82,20 +86,21 @@
 #include "MCAL/USART/USART.h"
 
 
+
 // ************   uncomment ONLY the line corresponding to the driver you test   ************ //
 // #define TESTING_SPI
 // #define TESTING_I2C
 // #define TESTING_USART
 // #define TESTING_ICU
 // #define TESTING_WATCHDOG_TIMER
+#define TESTING_TIMERS
 // #define TESTING_ADC
-// #define TESTING_TIMERS
 // #define TESTING_EX_INTERRUPTS
 //////
 // #define TESTING_SERVO
 // #define TESTING_SEVEN_SEGMENTS
 // #define TESTING_KEYPAD
-#define TESTING_LCD
+// #define TESTING_LCD
 // #define TESTING_BUTTONS
 // #define TESTING_LEDS
 // #define TESTING_DIO
@@ -165,26 +170,32 @@ while (1)
 
 #ifdef TESTING_ADC					/////////////////////
 
+u8 i=0;
 void myADCISR(){
-	u8 i=0;
 	LED_ToggleLED(LED1);
-	LCD_WriteInt(i);
-	++i;
+	// LCD_GoTo(0,13);
+	// LCD_WriteInt(i);
+	// ++i;
 }
 
 int main(){
 	LED_InitLED(LED1);
-	ADC_IntSetCallBack(myADCISR);
-	ADC_DisableAutoTrigger();
-	ADC_IntEnable();
 	LCD_Init();
+	// ADC_IntSetCallBack(myADCISR);
+	ADC_DisableAutoTrigger();
+	// ADC_IntEnable();
 	ADC_Init(ADC_CLK_PS_128);
 
 while (1)
 {
-	LCD_GoTo(1,1);
+	LCD_GoTo(0,1);
 	LCD_WriteNumWithLength(ADC_Read(DIO_A1_ANALOG),11);
-	_delay_ms(500);
+	_delay_ms(200);
+	
+
+	LCD_GoTo(1,1);
+	LCD_WriteNumWithLength(ADC_Read(DIO_A2_ANALOG),11);
+	_delay_ms(200);
 
 }
 }
@@ -192,10 +203,16 @@ while (1)
 
 #ifdef TESTING_EX_INTERRUPTS		/////////////////////
 
+
+
+volatile u8 i=0;
+
 void myISR0(void){	 
-	// EX_Int0_Disable();
+
 	LED_ToggleLED(LED0);		
-	EX_Int0_Enable();
+	i++;
+	LCD_GoTo(1,4);
+	LCD_WriteInt(i);
 }
 
 
@@ -206,13 +223,14 @@ int main(){
 	LED_InitLED(LED0);
 	LED_InitLED(LED1);
 
-	EX_Int0_Init(EX_INT0_FALLING);
-	EX_Int0_SetCallBack(myISR0);
+	EX_Int0_D2_Init(EX_INT0_RISING);
+	EX_Int0_D2_SetCallBack(myISR0);
 
-
+	
 
 while (1){
 	LED_ToggleLED(LED1); 	_delay_ms(1000);
+	
 
 }
 }
@@ -295,8 +313,10 @@ while(1){
 
 #ifdef TESTING_LEDS					/////////////////////
 int main(){
+	LED_InitLED(LED0);
 while(1){
-
+	LED_ToggleLED(LED0);
+	_delay_ms(500);
 }
 }
 #endif
@@ -322,10 +342,13 @@ while(1){
 
 
 #ifdef GENERAL_TEST					/////////////////////
+
 int main(){
+	
 while(1){
 
 }
+
 }
 #endif
 

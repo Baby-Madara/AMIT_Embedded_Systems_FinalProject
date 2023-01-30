@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"delay.h": "c",
+			"interrupt.h": "c",
+			"ex_interrupts.h": "c",
+			"bitmath.h": "c",
+			"general_interrupts.h": "c",
+			"adc.h": "c"
+		}
+	}
+}

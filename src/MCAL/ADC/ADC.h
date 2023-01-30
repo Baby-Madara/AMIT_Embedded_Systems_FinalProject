@@ -1,6 +1,26 @@
 #ifndef ADC_H_INCLUDED
 #define ADC_H_INCLUDED
 
+/**
+ * ADCSRA : ADC Control and Status Register A
+ *   ADSC   : ADC Start Conversion
+ *   ADATE  : ADC Auto Trigger Enable
+ *   ADIF   : ADC Interrupt Flag
+ *   ADIE   : ADC Interrupt Enable
+ *   ADPS2:0: ADC Prescaler Select Bits
+ * 
+ * 
+ * 
+ * 
+*/
+
+
+
+
+
+
+
+
 #include "../General_Interrupts/General_Interrupts.h"
 
 #include "../../UTILS/BitMath.h"
@@ -75,6 +95,8 @@ void ADC_IntSetCallBack	(	void(*IntPtr)(void));
 
 void ADC_setValueLeftAdj(void);
 void ADC_setValueRightAdj(void);
+
+// ADC Auto trigger doesn't work properly when reading from different chanels!
 void ADC_EnableAutoTrigger();
 void ADC_DisableAutoTrigger();
 void ADC_IntEnable		(	void	);

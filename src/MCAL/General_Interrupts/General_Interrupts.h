@@ -5,8 +5,10 @@
 #include "../../UTILS/BitMath.h"
 #include "../../UTILS/STD_Types.h"
 #include "../../Memory_map/mem_map.h"
-
 // #include <avr/interrupt.h>
+
+void GI_Enable();
+void GI_Disable();
 
 
 
@@ -126,21 +128,16 @@
 
 
 
-void GI_Enable();
-void GI_Disable();
 
 
+// the following are not used but reserved if needed in future midifications
 
-
+#define sei()  __asm__ __volatile__ ("sei" ::: "memory")
 
 #define ISR(vector, ...)                                   \
 	void vector (void) __attribute__ ((used)) __attribute__ ((signal)) __VA_ARGS__; \
 	void vector (void)
 
-// #define ISR(vector, ...)            \ // 	void vector (void) __attribute__ ((signal,__INTR_ATTRS)) __VA_ARGS__; \ // 	void vector (void)
-
-//OR:
-
-// #define ISR(vector, ...)            \  // 	void vector (void) __attribute__ ((used)) __VA_ARGS__; \  // 	void vector (void)
+// #define ISR(vector, ...)                                   \	void vector (void) __attribute__ ((used)) __attribute__ ((signal,__INTR_ATTRS)) __VA_ARGS__; \ 	void vector (void)
 
 #endif // GENERAL_INTERRUPTS_H_INCLUDED
