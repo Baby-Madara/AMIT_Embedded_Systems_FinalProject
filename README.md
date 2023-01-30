@@ -6,7 +6,7 @@ This is Embedded Systems Course Final Project
 
 ### Authors
 
-| Name          | gitHub username | email address                                          |               |
+| Name          | gitHub username | email address                                          | phone number  |
 |---------------|-----------------|--------------------------------------------------------|---------------|
 | Ahmed Farahat | @Baby-Madara    | ahmed.farahat1@msa.edu.eg - ahmedfarahat1177@gmail.com | +201119027639 |
 | Shehab Ashraf |                 |||
@@ -66,7 +66,7 @@ learned embedded systems interfacing from different instructors but special than
      Btn1          (ICP1) PD6 |20              21| PD7 (OC2)        Servo
                               |__________________|
                                                                          
-                          * (_PIN) means inverse logic
+                    * (_PIN) means inverted logic pin
 
 ### SW Archeticture
 
@@ -84,6 +84,6 @@ learned embedded systems interfacing from different instructors but special than
 * sevenSegments must be used with parallel programming (NO SEQUENTIAL DELAY CAN BE USED to work properly)
 
 
-### Main
+### main()
 
-IT IS USED FOR TESTING DRIVERS. THE DRIVER YOU WANT TO TEST, UNCOMMENT "#define TESTING_DRIVER_NAME" and type the codes you want in its section, this is for ensuring no loss of old trials
+IT IS USED FOR TESTING DRIVERS. THE DRIVER YOU WANT TO TEST, UNCOMMENT "#define TESTING_DRIVER_NAME" and type the codes you want in its section, this is for ensuring no loss of old test
