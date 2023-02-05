@@ -64,6 +64,7 @@
 
 #include "Memory_map/mem_map.h"
 #include "UTILS/BitMath.h"
+#include "UTILS/Maths.h"
 #include "MCAL/DIO/DIO.h"
 #include "HAL/LEDs/LEDs.h"
 #include "HAL/Buttons/Buttons.h"
@@ -148,20 +149,28 @@ while(1){
 // 	Timers_T0_IntCompMtchEnable();
 // }
 
+TIMERS_ENABLE_T0_WATCH
 
 int main(){
 
 	LCD_Init();	
-	LED_InitLED(LED0);
-	LCD_GoTo(1,1); LCD_WriteInt(Timers_T0_ReturnCurrentTime());
+	// LED_InitLED(LED0);
+	// LCD_GoTo(0,1); LCD_WriteInt(sizeof(u64));
 	
 	// Timers_T0_Init(TIMERS_T0_CLK_PS_1024, TIMERS_T0_MODE_FASTPWM, TIMERS_T0_OCPIN_NON_INVERTING_MODE, 127);
-	Timers_T0_Init(TIMERS_T0_COUNT_EXT_ON_FALLING_B0, TIMERS_T0_MODE_CTC, TIMERS_T0_OCPIN_DISCONNECT, 10);
+	// Timers_T0_Init(TIMERS_T0_COUNT_EXT_ON_FALLING_B0, TIMERS_T0_MODE_CTC, TIMERS_T0_OCPIN_DISCONNECT, 10);
 	// Timers_T0_IntCompMtchEnable();
+	
+	Timers_T0_WatchInit();
 
 while (1)
 {
-	LCD_GoTo(1,1); LCD_WriteInt(Timers_T0_ReturnCurrentTime());
+	LCD_GoTo(1,0); 
+	LCD_WriteInt(Timers_T0_days()				);LCD_WriteData(':');
+	LCD_WriteInt(Timers_T0_hours()%24			);LCD_WriteData(':');
+	LCD_WriteInt(Timers_T0_minutes()%60		);LCD_WriteData(':');
+	LCD_WriteInt(Timers_T0_secs()%60			);LCD_WriteData('.');
+	LCD_WriteInt(Timers_T0_milliSecs()%1000	);
 
 
 }

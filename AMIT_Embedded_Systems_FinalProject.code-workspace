@@ -11,7 +11,12 @@
 			"ex_interrupts.h": "c",
 			"bitmath.h": "c",
 			"general_interrupts.h": "c",
-			"adc.h": "c"
+			"adc.h": "c",
+			"mem_map.h": "c",
+			"std_types.h": "c",
+			"lcd.h": "c",
+			"stdio.h": "c",
+			"string.h": "c"
 		}
 	}
 }

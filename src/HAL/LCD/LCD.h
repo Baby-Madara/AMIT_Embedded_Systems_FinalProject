@@ -4,6 +4,7 @@
 // #include <string.h>
 
 #include "../../MCAL/DIO/DIO.h"
+#include "../../UTILS/Maths.h"
 #include <util/delay.h>
 #include "LCD_Config.h"
 
@@ -61,13 +62,6 @@ void LCD_WriteInt(s64 num);
 void LCD_WriteFloat(float64 num, u8 digits);
 
 void LCD_WriteNumWithLength(float64 num, u8 len);
-
-
-
-
-void reverse( u8 *str, 		s32 len				);
-s64  intToStr(s32 x, 		u8 str[], 	s32 d	);
-void ftoa(    float64 n, 	u8 *res, 	s32 afterpoint);
 
 
 

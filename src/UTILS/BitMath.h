@@ -17,9 +17,6 @@
 
 #define WRITE_BITS(Reg, Bits, Data)				( (Reg) = ((Bits) & (Data)) | ((~(Bits)) & (Reg))  )		 	//experimantal :)
 
-#define MAP(_val, _oldL, _oldH, _newL, _newH)	( ((float64)_newH - _newL)*((float64)_val - _oldL)/( (float64)_oldH - _oldL) + _newL )
-
-
 
 #endif //BITMATH_H_INCLUDED
 
