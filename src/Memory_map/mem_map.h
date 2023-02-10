@@ -387,7 +387,7 @@
 #define UDRIE	5 	
 #define RXEN	4 	
 #define TXEN	3 	
-#define UCSZ2	2 	
+#define UCSRC_UCSZ2	2 	
 #define RXB8	1 	
 #define TXB8	0 		
 
