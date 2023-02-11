@@ -9,12 +9,8 @@
 
 
 
-
-
-
-//set frame properties 
+//Init function 
 void UART_INIT();
-
 
 // transmit function
 void UART_TX(u8 data);
@@ -22,7 +18,7 @@ void UART_TX(u8 data);
 // recieve function
 u8 UART_RX();
 
-
+void status_check();
 
 
 
