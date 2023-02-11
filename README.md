@@ -69,14 +69,16 @@ learned embedded systems interfacing from different instructors but special than
                     * (_PIN) means inverted logic pin
 
 ### SW Archeticture
+   
+   
+    **************************************** Software Architecture *******************************************************************************
+    *  [UTILS]   || [main]        |                     main.c                                                                                   *
+    *            || [Services]    |     structs - classes - user-defined data types - applications                                               *
+    *            || [HAL]         | Lamps[1:5] - Dimmer[L6] - Door ctrlr - AC ctrlr - alarm - LCD - keaypad - tempSensor - EEPROM - Btns         *
+    *  STD_Types || [MCAL]        | DIO - General_Interrupts - External_Interrupts - ADC - Timers WDTimer - UART - I2C - SPI                     *
+    *  BIT_MATH  || [MEM_MAPPING] |                 MCU registers                                                                                *
+    **********************************************************************************************************************************************
 
-      ***************************************** Software Architecture *****************************************
-      * [UTILS]      || [APP]         |                     main.c                                            *
-      *              || [Services]    |     structs - classes - user-defined data types - ...                 *
-      *              || [HAL]         | LEDs - Buttons - SevenSegmrnt - LCD - KeyPad - ...                    *
-      *    STD_Types || [MCAL]        | DIO - General_Interrupts - External_Interrupts - ADC - Timers - ...   *
-      *    BIT_MATH  || [MEM_MAPPING] |                 MCU registers                                         *
-      *********************************************************************************************************
 
 ### Warnings
 

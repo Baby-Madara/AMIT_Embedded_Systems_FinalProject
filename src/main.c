@@ -37,13 +37,13 @@
  *                            * (_PIN) means inverse logic
  *  
  * @sw_archeticture: 
- *     **************************************** Software Architecture ****************************************
- *     * [UTILS]    || [APP]         |                     main.c                                            *
- *     *            || [Services]    |     structs - classes - user-defined data types - ...                 *
- *     *            || [HAL]         | LEDs - Buttons - SevenSegmrnt - LCD - KeyPad - ...                    *
- *     *  STD_Types || [MCAL]        | DIO - General_Interrupts - External_Interrupts - ADC - Timers - ...   *
- *     *  BIT_MATH  || [MEM_MAPPING] |                 MCU registers                                         *
- *     *******************************************************************************************************
+ *     **************************************** Software Architecture *******************************************************************************
+ *     * [UTILS]    || [main]        |                     main.c                                                                                   *
+ *     *            || [Services]    |     structs - classes - user-defined data types - applications                                                        *
+ *     *            || [HAL]         | Lamps[1:5] - Dimmer[L6] - Door ctrlr - AC ctrlr - alarm - LCD - keaypad - tempSensor - EEPROM - Btns         *
+ *     *  STD_Types || [MCAL]        | DIO - General_Interrupts - External_Interrupts - ADC - Timers WDTimer - UART - I2C - SPI                     *
+ *     *  BIT_MATH  || [MEM_MAPPING] |                 MCU registers                                                                                *
+ *     **********************************************************************************************************************************************
  *  
  * @warnings:		
  * 					-LCD and SevenSegments cannot be used together
@@ -94,11 +94,11 @@
 // #define TESTING_USART
 // #define TESTING_ICU
 // #define TESTING_WATCHDOG_TIMER
-#define TESTING_TIMERS
+// #define TESTING_TIMERS
 // #define TESTING_ADC
 // #define TESTING_EX_INTERRUPTS
 //////
-// #define TESTING_SERVO
+#define TESTING_SERVO
 // #define TESTING_SEVEN_SEGMENTS
 // #define TESTING_KEYPAD
 // #define TESTING_LCD
@@ -259,10 +259,97 @@ while(1){
 #endif
 
 #ifdef TESTING_SERVO				/////////////////////
-int main(){
-while(1){
 
+// D7 OC2 servo
+
+volatile u8 OVFcntr = 0, i =0;
+volatile float64 angl = 60;
+
+void OC2IntFn()
+{
+	if (OVFcntr == 0)
+	{
+		OCR2 = 0;
+	}
+	else if (OVFcntr == 1)
+	{
+		OCR2 = MAP(angl, 0, 180, 200, 231.25);
+		// TCNT2 = 200;
+		// OCR2 = MAP(angl, 0, 180, 200, 231.25);
+
+
+	}
 }
+
+void OV2IntFn(void)
+{
+	if (OVFcntr == 0)
+	{
+		OVFcntr = 1;
+		// TCNT2 = 0x00;
+	}
+	else if (OVFcntr == 1)
+	{
+		TCNT2 = 200;
+		OVFcntr = 0;
+		OCR2 = MAP(angl, 0, 180, 200, 231.25);
+	}
+}
+
+int main()
+{
+	volatile u8 tempOCR=0, tempTCNT=0;
+	LCD_Init();
+	LCD_GoTo(1,2);
+	// LCD_WriteInt(i);
+	
+	DIO_PinMode (DIO_D7,OUTPUT);
+	
+	// _delay_ms(1000);
+	// Timer_2_INIT_With_OCV(FAST,OCV_2_Clear,MAP(angl,    0, 180,    200, 231.25));
+
+	// TCNT2 = 200;     //Not affecting
+
+
+	// SET_BIT(TCCR2,CS20);
+	// SET_BIT(TCCR2,CS21);
+	// SET_BIT(TCCR2,CS22);
+	
+	Timers_T2_IntOverFlowEnable();
+	Timers_T2_IntCompMtchEnable();
+
+	Timers_T2_IntOverFlowSetCallBack(OV2IntFn);
+	Timers_T2_IntCompMtchSetCallBack(OC2IntFn);
+	Timers_T2_Init(TIMERS_T2_CLK_PS_1024, TIMERS_T2_MODE_FASTPWM, TIMERS_T2_OCPIN_NON_INVERTING_MODE, MAP(angl,    0, 180,    200, 231.25));
+	
+	while (1)
+	{	
+		tempOCR = OCR2, tempTCNT=TCNT2;
+
+		LCD_Clear();
+		LCD_GoTo(0, 3);	LCD_WriteInt(tempTCNT);
+		if (tempOCR == 0)
+		{
+			LCD_GoTo(1,1);	LCD_WriteInt(0);
+		}
+		else
+		{
+			LCD_GoTo(1,7);	LCD_WriteInt(tempOCR);
+		}
+		
+		
+		// LCD_GoTo(1,2);
+		// LCD_WriteInt(i);
+		// _delay_ms(100);
+		i = OCR2;
+		// angl = 0; _delay_ms(1000);
+		// angl = 60; _delay_ms(1000);
+		// angl = 120; _delay_ms(1000);
+		// angl = 180; _delay_ms(1000);
+	}
+	
+
+
 }
 #endif
 
