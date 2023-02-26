@@ -15,8 +15,7 @@ void UART_INIT(){
     //***   ENABLE RX AND TX     ***///
     /*************************************************/
     SET_BIT(UCSRB , RXEN);
-    SET_BIT(UCSRB , TXEN);
-
+    SET_BIT(UCSRB , TXEN); 
 
     //***     BAUD RATE        ***//
     /*************************************************/
@@ -43,7 +42,6 @@ void UART_INIT(){
     //Multi processor communication Mode     
     CLEAR_BIT(UCSRA , MPCM); 
 
-
     //      *** DATA FORMAT***          //
     /***********************************************/
     //to access USCRC only because it shares with UBRRH 
@@ -59,12 +57,9 @@ void UART_INIT(){
     CLEAR_BIT(UCSRC  , UCSZ2);
     SET_BIT(UCSRC   ,UCSRC_UCSZ1);
     SET_BIT(UCSRB   ,UCSRC_UCSZ0);
-    // siince asyn. disable UCPOL by clear
+    // since asyn. disable UCPOL by clear
     CLEAR_BIT(UCSRC ,UCSRC_UCPOL);
 
-
-
-    
 
 }
 
@@ -81,12 +76,13 @@ void UART_TX(u8 data){
 // recieve function
 u8 UART_RX(){
 
+        while ( GET_BIT(UCSRA , UDRE) == 1 ) //read UDRE and if one then the buffer is ready to store then transmit data
+    {
+        return UDR;
+    }
 }
 
 
-void status_check(){
-
-}
 
 
 

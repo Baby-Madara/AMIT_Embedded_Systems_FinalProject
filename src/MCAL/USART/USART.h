@@ -23,10 +23,4 @@ void status_check();
 
 
 
-
-
-
-
-
-
 #endif //USART_H_INCLUDED
