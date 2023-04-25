@@ -16,16 +16,25 @@
 			"std_types.h": "c",
 			"lcd.h": "c",
 			"stdio.h": "c",
-			"string.h": "c",
-			"i2c.h": "c",
-			"timers.h": "c",
-			"sdb.h": "c",
-			"maths.h": "c",
-			"users.h": "c",
-			"leds.h": "c",
-			"servo.h": "c",
-			"dio.h": "c",
-			"servo_config.h": "c"
-		}
+			"string.h": "c"
+		},
+		"MicroPython.executeButton": [
+			{
+				"text": "▶",
+				"tooltip": "Run",
+				"alignment": "left",
+				"command": "extension.executeFile",
+				"priority": 3.5
+			}
+		],
+		"MicroPython.syncButton": [
+			{
+				"text": "$(sync)",
+				"tooltip": "sync",
+				"alignment": "left",
+				"command": "extension.execute",
+				"priority": 4
+			}
+		]
 	}
 }
