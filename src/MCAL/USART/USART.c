@@ -27,7 +27,7 @@ void UART_INIT(){
     //Bits transmitted
     CLEAR_BIT(UCSRC  , UCSRC_UCSZ0);
     SET_BIT(UCSRC   ,UCSRC_UCSZ1);
-    SET_BIT(UCSRB   ,UCSRC_UCSZ2);
+    SET_BIT(UCSRB   ,UCSZ2);
     // siince asyn. disable UCPOL by clear
     CLEAR_BIT(UCSRC ,UCSRC_UCPOL);
 

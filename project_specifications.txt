@@ -1,0 +1,31 @@
+		MCU
+			UART - LCD - KeyPad - tempSen  - Lamps[5] - dimmer    - ACmotor   - alarm 
+			UART - LCD - KeyPad - easy ADC - easy     - easy(pwm) - easy(PWM) - easy (buzzer for emergency not alarm) 
+
+
+
+
+
+objects:
+	users[20]
+
+	
+
+
+
+if (isAdmin == TRUE)   {use LCD or BLUETOOTH    }
+if (isAdmin == FALSE)  {use LCD only            }
+if (isAdmin=FALSE)     {"cannot control door"   }
+if (isAdmin=TRUE)      {--"add/remove any user" }
+userAvailableTrials = 3 , if 3 trials fail, alarm till reset
+
+userList is saved in EEPROM
+
+
+
+
+
+
+
+
+

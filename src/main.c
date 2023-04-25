@@ -72,7 +72,7 @@
 #include "HAL/KeyPad/KeyPad.h"
 #include "HAL/SevenSegment/SevenSegment.h"
 
-
+#include "MCAL/I2C/I2C.h"
 #include "MCAL/Ex_Interrupts/Ex_Interrupts.h"
 #include "MCAL/ADC/ADC.h"
 #include "MCAL/Timers/Timers.h"
@@ -86,9 +86,12 @@
 #include "MCAL/I2C/I2C.h"
 #include "MCAL/USART/USART.h"
 
+#include "Services/Users/Users.h"
+
 
 
 // ************   uncomment ONLY the line corresponding to the driver you test   ************ //
+#define TESTING_APP
 // #define TESTING_SPI
 // #define TESTING_I2C
 // #define TESTING_USART
@@ -98,7 +101,7 @@
 // #define TESTING_ADC
 // #define TESTING_EX_INTERRUPTS
 //////
-#define TESTING_SERVO
+// #define TESTING_SERVO
 // #define TESTING_SEVEN_SEGMENTS
 // #define TESTING_KEYPAD
 // #define TESTING_LCD
@@ -110,15 +113,230 @@
 // #define GENERAL_TEST
 
 
+#ifdef TESTING_APP
 
+
+int main(){
+	DIO_PinMode(DIO_D7, OUTPUT);
+	volatile s16 ang = 90; 
+
+
+
+
+while(1){
+	// DIO_DigitalWritePin(DIO_D7,HIGH); 
+	// _delay_us((s32)MAP(90, -180, 180, 500, 2500));
+	// DIO_DigitalWritePin(DIO_D7,LOW); 
+	// _delay_us((s32)((s32)20000 - (s32)MAP(90, -180, 180, 500, 2500)));
+
+	DIO_DigitalWritePin(DIO_D7,HIGH); 
+	_delay_ms(2);
+	DIO_DigitalWritePin(DIO_D7,LOW); 
+	_delay_ms(18);
+
+}
+}
+#endif
+
+
+	
+	// DIO_PinMode(DIO_D7, OUTPUT);
+	// Timers_T2_Init(TIMERS_T2_CLK_PS_64, TIMERS_T2_MODE_FASTPWM, TIMERS_T2_OCPIN_NON_INVERTING_MODE, 200);
 
 
 #ifdef TESTING_I2C				/////////////////////
+
+void TWI_Init(void)
+{
+
+	// set_bit(TWCR,6);
+	TWSR = 0;
+	TWBR = 0x07;
+	TWCR |= (1 << TWEN);
+}
+
+void TWI_Start(void)
+{
+	TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
+	while (GET_BIT(TWCR, TWINT) == 0)
+	{	}
+}
+
+
+void TWI_Stop(void)
+{
+	TWCR = (1 << TWSTO) | (1 << TWEN) | (1 << TWINT);
+}
+
+void TWI_Write(char data)
+{
+	TWDR = data;
+	TWCR = (1 << TWINT) | (1 << TWEN);
+	while (GET_BIT(TWCR, TWINT) == 0)
+	{	}
+}
+
+void TWI_Read_Nack(char *ptr) // The function argument is a pointer to a memory place in the MCU to store the received data in
+{
+	TWCR = (1 << TWINT) | (1 << TWEN);
+	while (GET_BIT(TWCR, TWINT) == 0)
+	{	}
+	*ptr = TWDR;
+}
+
+void EEPROM_Write(char data, char address)
+{
+	TWI_Start();
+	TWI_Write(0xA8); // slave address is 1010.100 and a 0 in the 8th bit to indicate Writting.
+
+	TWI_Write(address);
+
+	TWI_Write(data);
+
+	TWI_Stop();
+}
+
+void EEPROM_Read(char address, char *ptr) // the function arguments are an address in the EEPROM to read from and a pointer to a memory place in the MCU to store the read data in
+
+{
+
+	TWI_Start();
+
+	TWI_Write(0xA8);
+
+	TWI_Write(address);
+
+	TWI_Start();
+
+	TWI_Write(0xA9);
+
+	TWI_Read_Nack(ptr);
+
+	TWI_Stop();
+}
+
+int main(void)
+
+{
+
+	char R;
+
+	DDRD = 0b11111111;
+
+	TWI_Init();
+
+	while (1)
+
+	{
+
+		EEPROM_Write(0xE0, 0x00);
+
+		_delay_ms(1000); // You must allow suffcent delay for the EEPROM to complete the its internal write cycle
+
+		EEPROM_Read(0x00, &R);
+
+		if (R == 0xE0)
+		{
+
+			LED_ToggleLED(LED2);
+		}
+	}
+}
+
+// int main(){
+// 	LCD_Init();
+
+
+// 	I2C_init(0x40,FALSE, 3, I2C_PRESCALER_1);
+
+// while(1){
+
+// 	I2C_connectTo_SelectRW(0x10, I2C_WRITE);
+
+// 	I2C_sendByte('C');
+// 	I2C_stopConnection();
+// 	_delay_ms(1000);
+// }
+// }
+
+
+
+
+
+/*
 int main(){
-while(1){
+
+	volatile u8 ch='n', sState=0;
+
+	I2C_init(0x40,TRUE, 3, I2C_PRESCALER_1);
+	LCD_Init();
+	LCD_WriteData(ch);
+
+
+
+
+while (1)
+{
+	sState = I2C_Start(34, I2C_READ);
+	ch = I2C_Read_Ack();
+	I2C_Stop();
+	// while(sState != 1){
+	// 	sState = I2C_Start(34, I2C_READ);
+	// }
+	// if(sState ==1){
+	// 	// I2C_Stop();
+		
+	// }
+	
+
+	LCD_WriteData(ch);
+	LCD_WriteData(ch);
+	// LCD_WriteInt(sState);
+
+	_delay_ms(110);
+
 
 }
 }
+*/
+
+
+
+
+
+// int main(){
+// 	sei();
+
+
+// 	volatile u8 ch='n';
+
+// 	I2C_init(0x40,FALSE, 3, I2C_PRESCALER_1);
+// 	LCD_Init();
+// 	LCD_WriteData(ch);
+
+
+// while (1)
+// {
+// 	volatile u8 stat=0;
+// 	// ch = 
+// 	stat = I2C_Start(16, I2C_WRITE);
+	
+// 	while(1){
+// 		if(stat == 2 || stat == 3 || stat == 0){
+// 			I2C_Stop();
+// 			stat = I2C_Start(16, I2C_WRITE);
+// 		}
+// 		else{break;}
+// 	}
+
+// 	LCD_WriteData(ch);
+// 	I2C_Write(ch++);
+// 	I2C_Stop();
+
+// 	_delay_ms(1000);
+// }
+// }
+
 #endif
 
 
@@ -326,10 +544,10 @@ int main()
 	{	
 		tempOCR = OCR2, tempTCNT=TCNT2;
 
-		LCD_Clear();
 		LCD_GoTo(0, 3);	LCD_WriteInt(tempTCNT);
 		if (tempOCR == 0)
 		{
+			LCD_Clear();
 			LCD_GoTo(1,1);	LCD_WriteInt(0);
 		}
 		else
