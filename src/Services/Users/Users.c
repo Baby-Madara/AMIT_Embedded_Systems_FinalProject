@@ -119,7 +119,7 @@ void     Users_DeleteEntry    (Users_usersList *list, u8 username[20])
 
 
 // 1 if entry exists:
-bool     Users_ReadEntry      (Users_usersList *list, u8 username[],    u8 password[],    u8 *isAdmin){
+bool     Users_ReadEntry      (Users_usersList *list, u8 username[],    u8 password[],    bool *isAdmin){
     Users_userNode *nodeToFind = list->headPtr;
     while( nodeToFind != NULL){
         if(!strcmp(username , nodeToFind->data.username)){

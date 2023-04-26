@@ -87,11 +87,12 @@
 #include "MCAL/USART/USART.h"
 
 #include "Services/Users/Users.h"
+#include "Services/Shell/Shell.h"
 
 
 
 // ************   uncomment ONLY the line corresponding to the driver you test   ************ //
-#define TESTING_APP
+#define TESTING_USERS
 // #define TESTING_SPI
 // #define TESTING_I2C
 // #define TESTING_USART
@@ -113,26 +114,24 @@
 // #define GENERAL_TEST
 
 
-#ifdef TESTING_APP
+#ifdef TESTING_USERS
 
 
 int main(){
-	DIO_PinMode(DIO_D7, OUTPUT);
-	volatile s16 ang = 90; 
+	// Users_usersList usersList;
+	// Users_initList(&usersList, 20);
 
+	KeyPad_Init();
+	LCD_Init();
 
 
 
 while(1){
-	// DIO_DigitalWritePin(DIO_D7,HIGH); 
-	// _delay_us((s32)MAP(90, -180, 180, 500, 2500));
-	// DIO_DigitalWritePin(DIO_D7,LOW); 
-	// _delay_us((s32)((s32)20000 - (s32)MAP(90, -180, 180, 500, 2500)));
+	LCD_WriteData(KeyPad_GetRead());
 
-	DIO_DigitalWritePin(DIO_D7,HIGH); 
-	_delay_ms(2);
-	DIO_DigitalWritePin(DIO_D7,LOW); 
-	_delay_ms(18);
+
+
+
 
 }
 }

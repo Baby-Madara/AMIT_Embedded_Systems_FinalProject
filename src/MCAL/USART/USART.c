@@ -56,7 +56,7 @@ void UART_INIT(){
     //Bits transmitted 0->7 by default this is already done but for sure
     CLEAR_BIT(UCSRC  , UCSZ2);
     SET_BIT(UCSRC   ,UCSRC_UCSZ1);
-    SET_BIT(UCSRB   ,UCSRC_UCSZ2);
+    SET_BIT(UCSRB   ,UCSRC_UCSZ0);
     // siince asyn. disable UCPOL by clear
     CLEAR_BIT(UCSRC ,UCSRC_UCPOL);
 
@@ -76,7 +76,7 @@ void UART_TX(u8 data){
 // recieve function
 u8 UART_RX(){
 
-        while ( GET_BIT(UCSRA , UDRE) == 1 ) //read UDRE and if one then the buffer is ready to store then transmit data
+    while ( GET_BIT(UCSRA , UDRE) == 1 ) //read UDRE and if one then the buffer is ready to store then transmit data
     {
         return UDR;
     }

@@ -41,7 +41,7 @@ learned embedded systems interfacing from different instructors but special than
 
 ### Pinout
 (with HAL connections for the AMIT AVR kit)
-
+```
                                     [PDIP]:
                                __________________
     Btn0         (XCK/T0) PB0 |1       @       40| PA0 (ADC0)       N/C
@@ -67,10 +67,10 @@ learned embedded systems interfacing from different instructors but special than
                               |__________________|
                                                                          
                     * (_PIN) means inverted logic pin
-
+```
 ### SW Archeticture
    
-   
+```
     **************************************** Software Architecture *******************************************************************************
     *  [UTILS]   || [main]        |                     main.c                                                                                   *
     *            || [Services]    |     structs - classes - user-defined data types - applications                                               *
@@ -78,7 +78,7 @@ learned embedded systems interfacing from different instructors but special than
     *  STD_Types || [MCAL]        | DIO - General_Interrupts - External_Interrupts - ADC - Timers WDTimer - UART - I2C - SPI                     *
     *  BIT_MATH  || [MEM_MAPPING] |                 MCU registers                                                                                *
     **********************************************************************************************************************************************
-
+```
 
 ### Warnings
 

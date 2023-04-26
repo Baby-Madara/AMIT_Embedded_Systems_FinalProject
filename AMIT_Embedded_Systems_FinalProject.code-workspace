@@ -16,7 +16,8 @@
 			"std_types.h": "c",
 			"lcd.h": "c",
 			"stdio.h": "c",
-			"string.h": "c"
+			"string.h": "c",
+			"keypad_config.h": "c"
 		},
 		"MicroPython.executeButton": [
 			{
