@@ -10,6 +10,7 @@
 
 void KeyPad_Init();
 u8 KeyPad_GetRead();
+u8 KeyPad_GetRead_click();
 
 
 

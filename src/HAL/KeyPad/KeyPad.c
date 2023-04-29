@@ -65,6 +65,16 @@ u8 KeyPad_GetRead(){
 }
 
 
+u8 KeyPad_GetRead_click()
+{
+	volatile static u8 prevRead = 0;
+	volatile u8 newRead = KeyPad_GetRead();
+
+	if(newRead == prevRead)		{	return 0;		}
+	else						{	prevRead = newRead; 	return newRead;}
+}
+
+
 
 
 

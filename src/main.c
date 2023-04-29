@@ -70,6 +70,7 @@
 #include "HAL/Buttons/Buttons.h"
 #include "HAL/LCD/LCD.h"
 #include "HAL/KeyPad/KeyPad.h"
+#include "HAL/Bluetooth/Bluetooth.h"
 #include "HAL/SevenSegment/SevenSegment.h"
 
 #include "MCAL/I2C/I2C.h"
@@ -88,6 +89,8 @@
 
 #include "Services/Users/Users.h"
 #include "Services/Shell/Shell.h"
+
+#include "MCAL/UART_Trial/UART_Trial.h"
 
 
 
@@ -117,21 +120,31 @@
 #ifdef TESTING_USERS
 
 
+
+
 int main(){
-	// Users_usersList usersList;
-	// Users_initList(&usersList, 20);
+	Shell_systemInit();
+	
+	Users_usersList usersList;
+	Users_initList(&usersList, 20);
+	Users_AddEntry(&usersList, "1234", "1234", TRUE);
 
-	KeyPad_Init();
-	LCD_Init();
-
+	Shell_login(&usersList);
+	
+	// volatile u8 read=0;
 
 
 while(1){
-	LCD_WriteData(KeyPad_GetRead());
+	Shell_cmdChecker();
+	Shell_cmdExecuter();
 
+	// LCD_WriteString((u8*)"hi "); _delay_ms(1000);
 
-
-
+	// if(Bluetooth_IsAvailable())
+	// {
+	// 	read = Bluetooth_RxChar();
+	// 	LCD_WriteData(read);	
+	// }
 
 }
 }
