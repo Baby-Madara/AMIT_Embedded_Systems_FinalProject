@@ -53,14 +53,16 @@ void             Users_initList(Users_usersList *base,  u8 maxLength);
 
 
 
+void             Users_userNodeInit   (Users_userNode *node);
+Users_userNode*  Users_newNode        ();
+
 
 // **************************  REQUIRED  ************************* //
-
-void             Users_userNodeInit   (Users_userNode *node);
 
 
 bool             Users_AddEntry       (Users_usersList *list,  u8 username[20],  u8  password[20],    bool isAdmin);
 bool             Users_ReadEntry      (Users_usersList *list,  u8 username[],    u8  password[],      bool *isAdmin);
+bool             Users_EditEntry      (Users_usersList *list,  u8 oldUser[],     u8 newUser[],  u8 newPass[],      bool isAdmin);
 bool             Users_IsUserExist    (Users_usersList *list,  u8 user[]);                                                      // 1 if exists
 void             Users_DeleteEntry    (Users_usersList *list,  u8 username[20]);
 bool             Users_IsFull         (Users_usersList *list);                                                                  // 1 if full
@@ -68,6 +70,5 @@ u8               Users_GetUsedSize    (Users_usersList *list);
 void             Users_GetUsersList   (Users_usersList *list,  u8 *count,        u8 userList[][20]);
 
 
-Users_userNode*  Users_newNode        ();
 
 #endif // Users_H_INCLUDED

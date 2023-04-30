@@ -2,11 +2,14 @@
 
 
 volatile u8 available_login_trials 	= 3,
-			userCmd					= 0;
+			userCmd					= 0,
+			currentTemperature      = 0;
 
 volatile Users_user loggedUser;
 
 volatile bool Shell_loginTool= SHELL_KEYPAD_LOGIN;
+
+
 
 void Shell_firstLogin()
 {
@@ -154,7 +157,13 @@ void Shell_systemInit()
 	LED_InitLED(LED0);
 	LED_InitLED(LED1);
 	LED_InitLED(LED2);
-    
+
+	ADC_DisableAutoTrigger();
+	ADC_Init(ADC_CLK_PS_128);
+	// ADC_IntEnable();
+	
+	LED_DimmerInit();
+
 }
 
 
@@ -197,7 +206,8 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			// SHELL_CMD_LED_DIMMER_LEVEL      '6'
 			// SHELL_CMD_AC_AUTO               '7'
 			// SHELL_CMD_AC_MANUAL             '8'
-			// //  #define SHEL_CMD___                     '9'
+			// SHELL_CMD_PRINT_USERS_LIST     '9'
+
 
     switch(userCmd){
 		case SHELL_CMD_USERMANUAL: 			// user manual
@@ -293,8 +303,90 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			}
 			else if	(loggedUser.isAdmin == TRUE)
 			{
+				volatile u8 tempCharNewUser            = 0,
+							tempStrNewUser[20]         = {0},
+							tempIndexNewUser           = 0,
+				
+							tempCharPass            = 0,
+							tempStrPass[20]         = {0},
+							tempIndexPass           = 0,
+				
+							tempCharOldUser            = 0,
+							tempStrOldUser[20]         = {0},
+							tempIndexOldUser           = 0,
+							
+							tempCmd 				= 0,
+							tempStrPasswordComp[20] = {0}	;
+				volatile bool tempIsAdmin = FALSE;
 
+				LCD_Clear();
+				LCD_WriteString("#:edit *:del ");
+				tempCmd = Shell_WaitCmd();
+				LCD_Clear();
+				if (tempCmd == '#')
+				{
+					LCD_Clear();
+					LCD_WriteString("old user: ");
+					strcpy(tempStrOldUser, Shell_enterStr(FALSE));
+					LCD_Clear();
+					if(Users_IsUserExist(usersList, tempStrOldUser))
+					{
+						LCD_Clear();
+						LCD_WriteString("new user: ");
+						strcpy(tempStrNewUser, Shell_enterStr(FALSE));
+						LCD_Clear();
+
+						LCD_WriteString("new password: ");
+						strcpy(tempStrPass, Shell_enterStr(TRUE));
+						LCD_Clear();
+
+						LCD_WriteString("make admin? 1:yes 0:no ");
+						tempIsAdmin = (Shell_WaitCmd()-48);
+						LCD_Clear();
+
+						Users_EditEntry(usersList, tempStrOldUser, tempStrNewUser, tempStrPass, tempIsAdmin);
+						
+
+					}
+					else
+					{
+						LCD_Clear();
+						LCD_WriteString("user does not exist!");
+						_delay_ms(2000);
+						LCD_Clear();
+					}
+				}
+				else if (tempCmd == '*')
+				{
+					LCD_Clear();
+					LCD_WriteString("user: ");
+					strcpy(tempStrOldUser, Shell_enterStr(FALSE));
+					LCD_Clear();
+					if(Users_IsUserExist(usersList, tempStrOldUser))
+					{
+						Users_DeleteEntry(usersList, tempStrOldUser);
+						LCD_Clear();
+						LCD_WriteString("user is deleted successfully");
+						_delay_ms(2000);
+						LCD_Clear();
+						
+
+					}
+					else
+					{
+						LCD_Clear();
+						LCD_WriteString("user does not exist!");
+						_delay_ms(2000);
+						LCD_Clear();
+					}
+				}
+				
+				
+
+				///////////////////////
 			}
+				
+			
 			LCD_Clear();
 			LCD_WriteString("press A for user manual");
 			
@@ -414,37 +506,14 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			LCD_WriteString("Dimmer level (0:5): ");
 			lvl = Shell_WaitCmd();
 			LCD_WriteData(lvl);
-			
-			switch (lvl)
-			{
-				case '0':
-				{
-					LED_Dimmer(0);
-				}break;
-				case '1':
-				{
-					LED_Dimmer(1*200);
-				}break;
-				case '2':
-				{
-					LED_Dimmer(2*200);
-				}break;
-				case '3':
-				{
-					LED_Dimmer(3*200);
-				}break;
-				case '4':
-				{
-					LED_Dimmer(4*200);
-				}break;
-				case '5':
-				{
-					LED_Dimmer(5*200);
-				}break;
-			}
+
+			// LED_DimmerVal(0);
+			LED_DimmerVal((lvl-48)*51);
+
 			_delay_ms(1500);
 			LCD_Clear();
 			LCD_WriteString("press A for user manual");
+			_delay_ms(1500);
 			
 			
 			
@@ -618,5 +687,9 @@ u8* Shell_enterStr(bool isHidden)
 }
 
 
-
+void Shell_devicesUpdate()
+{
+	currentTemperature = AC_currentTemperature(); 	//assume 0-> 10deg    1023->70deg Celcuis
+	
+}
 

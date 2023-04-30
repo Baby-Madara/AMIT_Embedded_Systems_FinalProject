@@ -25,7 +25,10 @@
 			"servo.h": "c",
 			"watchdog_timer.h": "c",
 			"timers.h": "c",
-			"leds.h": "c"
+			"leds.h": "c",
+			"ac.h": "c",
+			"shell.h": "c",
+			"leds_config.h": "c"
 		},
 		"MicroPython.executeButton": [
 			{

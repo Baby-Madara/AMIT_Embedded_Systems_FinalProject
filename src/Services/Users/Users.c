@@ -168,3 +168,24 @@ bool     Users_IsUserExist    (Users_usersList *list,     u8 user[]){
 
 
 
+bool             Users_EditEntry      (Users_usersList *list,  u8 oldUser[],  u8 newUser[],  u8  newPass[],      bool isAdmin)
+{
+    if (!Users_IsUserExist(list, oldUser))
+    {return 0;}
+    else
+    {
+        Users_userNode *currentNode = list->headPtr;
+    
+        while(currentNode != NULL){
+            if (!strcmp(oldUser, currentNode->data.username))
+            {
+                strcpy(currentNode->data.username, newUser);
+                strcpy(currentNode->data.password, newPass);
+                currentNode->data.isAdmin = isAdmin;
+            }
+            currentNode = currentNode->next;
+        }
+
+    }
+    return 1;
+}

@@ -10,31 +10,31 @@
  * 	Registers Page 	||	327
  *  
  * @pinout:					          
- *                                      [PDIP]:
- *                                 __________________
- *      Btn0         (XCK/T0) PB0 |1       @       40| PA0 (ADC0)       N/C
- *      LCD_RS           (T1) PB1 |2               39| PA1 (ADC1)       Pot
- *      LCD_RW    (INT2/AIN0) PB2 |3               38| PA2 (ADC2)       Relay
- *      LCD_EN     (OC0/AIN1) PB3 |4               37| PA3 (ADC3)       Buzzer
- *      SS              (_SS) PB4 |5               36| PA4 (ADC4)       LCD_D4
- *      MOSI           (MOSI) PB5 |6               35| PA5 (ADC5)       LCD_D5
- *      MISO           (MISO) PB6 |7               34| PA6 (ADC6)       LCD_D6
- *      SCK             (SCK) PB7 |8               33| PA7 (ADC7)       LCD_D7
- *                         _RESET |9               32| AREF
- *                            VCC |10   ATMega32   31| GND
- *                            GND |11              30| AVCC
- *                          XTAL2 |12              29| PC7 (TOSC2)      LED1
- *                          XTAL1 |13              28| PC6 (TOSC1)      H_A4
- *       RX             (RXD) PD0 |14              27| PC5 (TDI)        H_A3
- *       TX             (TXD) PD1 |15              26| PC4 (TDO)        H_A2
- *       Btn2          (INT0) PD2 |16              25| PC3 (TMS)        H_A1
- *       LED2          (INT1) PD3 |17              24| PC2 (TCK)        LED0
- *       H_En1         (OC1B) PD4 |18              23| PC1 (SDA)        SDA
- *       H_En2         (OC1A) PD5 |19              22| PC0 (SCL)        SCL
- *       Btn1          (ICP1) PD6 |20              21| PD7 (OC2)        Servo
- *                                |__________________|
- *                                                                           
- *                            * (_PIN) means inverse logic
+ *                                                [PDIP]:                                              
+ *             .                             __________________                          .             
+ *             .  Btn0         (XCK/T0) PB0 |1       @       40| PA0 (ADC0)       N/C    .    LCD_EN   
+ *             .  LCD_RS           (T1) PB1 |2               39| PA1 (ADC1)       Pot    .             
+ *             .  LCD_RW    (INT2/AIN0) PB2 |3               38| PA2 (ADC2)       Relay  .             
+ *             .  LCD_EN     (OC0/AIN1) PB3 |4               37| PA3 (ADC3)       Buzzer .             
+ *             .  SS              (_SS) PB4 |5               36| PA4 (ADC4)       LCD_D4 .             
+ *             .  MOSI           (MOSI) PB5 |6               35| PA5 (ADC5)       LCD_D5 .             
+ *             .  MISO           (MISO) PB6 |7               34| PA6 (ADC6)       LCD_D6 .             
+ *             .  SCK             (SCK) PB7 |8               33| PA7 (ADC7)       LCD_D7 .             
+ *             .                     _RESET |9               32| AREF                    .             
+ *             .                        VCC |10   ATMega32   31| GND                     .             
+ *             .                        GND |11              30| AVCC                    .             
+ *             .                      XTAL2 |12              29| PC7 (TOSC2)      LED1   .             
+ *             .                      XTAL1 |13              28| PC6 (TOSC1)      H_A4   .    KEYPAD_C2
+ *             .   RX             (RXD) PD0 |14              27| PC5 (TDI)        H_A3   .    KEYPAD_C1
+ *             .   TX             (TXD) PD1 |15              26| PC4 (TDO)        H_A2   .    KEYPAD_C0
+ *             .   Btn2          (INT0) PD2 |16              25| PC3 (TMS)        H_A1   .    KEYPAD_R3
+ *             .   LED2          (INT1) PD3 |17              24| PC2 (TCK)        LED0   .             
+ *   KEYPAD_R2 .   H_En1         (OC1B) PD4 |18              23| PC1 (SDA)        SDA    .    KEYPAD_R1
+ *   KEYPAD_C3 .   H_En2         (OC1A) PD5 |19              22| PC0 (SCL)        SCL    .    KEYPAD_R0
+ *             .   Btn1          (ICP1) PD6 |20              21| PD7 (OC2)        Servo  .             
+ *             .                            |__________________|                         .             
+ *             .                                                                         .             
+ *             .                        * (_PIN) means inverse logic                     .             
  *  
  * @sw_archeticture: 
  *     **************************************** Software Architecture *******************************************************************************
@@ -93,7 +93,7 @@
 
 
 // ************   uncomment ONLY the line corresponding to sketch you test   ************ //
-#define TESTING_USERS
+#define TESTING_SHELL
 // #define TESTING_BLUETOOTH
 // #define TESTING_SPI
 // #define TESTING_I2C
@@ -116,25 +116,31 @@
 // #define GENERAL_TEST
 
 
-#ifdef TESTING_USERS
+#ifdef TESTING_SHELL
 
 
 static Users_usersList usersList;
 
 
 int main(){
-	Shell_systemInit();
-	
+
 	Users_initList(&usersList, 20);
 	Users_AddEntry(&usersList, "1234", "1234", TRUE);
+	
 
+	Shell_systemInit();
 	Shell_login(&usersList);
-	// volatile u8 read=0;
 
 
 while(1){
 	Shell_cmdChecker();
 	Shell_cmdExecuter(&usersList);
+	Shell_devicesUpdate();
+
+	LCD_Clear();
+	LCD_WriteString("temperature: ");
+	LCD_WriteInt(AC_currentTemperature());
+	LCD_WriteString(" °C");
 
 
 }
@@ -390,7 +396,7 @@ while(1){
 // 	Timers_T0_IntCompMtchEnable();
 // }
 
-TIMERS_ENABLE_T0_WATCH
+// TIMERS_ENABLE_T0_WATCH
 
 int main(){
 
@@ -398,7 +404,7 @@ int main(){
 	// LED_InitLED(LED0);
 	// LCD_GoTo(0,1); LCD_WriteInt(sizeof(u64));
 	
-	// Timers_T0_Init(TIMERS_T0_CLK_PS_1024, TIMERS_T0_MODE_FASTPWM, TIMERS_T0_OCPIN_NON_INVERTING_MODE, 127);
+	Timers_T0_Init(TIMERS_T0_CLK_PS_1024, TIMERS_T0_MODE_FASTPWM, TIMERS_T0_OCPIN_NON_INVERTING_MODE, 127);
 	// Timers_T0_Init(TIMERS_T0_COUNT_EXT_ON_FALLING_B0, TIMERS_T0_MODE_CTC, TIMERS_T0_OCPIN_DISCONNECT, 10);
 	// Timers_T0_IntCompMtchEnable();
 	
@@ -406,6 +412,13 @@ int main(){
 
 while (1)
 {
+	// Timers_T0_WG__PWM_B3(0); _delay_ms(1000);
+	// Timers_T0_WG__PWM_B3(128); _delay_ms(1000);
+	// Timers_T0_WG__PWM_B3(255); _delay_ms(1000);
+
+
+
+
 	LCD_GoTo(1,0); 
 	LCD_WriteInt(Timers_T0_days()				);LCD_WriteData(':');
 	LCD_WriteInt(Timers_T0_hours()%24			);LCD_WriteData(':');

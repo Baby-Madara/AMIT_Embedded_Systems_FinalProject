@@ -7,7 +7,8 @@
 #ifdef AMIT_KIT 
 #define LCD_RS	DIO_B1
 #define LCD_RW	DIO_B2
-#define LCD_En	DIO_B3
+// #define LCD_En	DIO_B3
+#define LCD_En	DIO_A0      // (modified for better connections)
 
 #define LCD_D4 	DIO_A4
 #define LCD_D5 	DIO_A5

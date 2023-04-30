@@ -2,6 +2,7 @@
 #define LEDS_H_INCLUDED
 
 #include "../../MCAL/DIO/DIO.h"
+#include "../../MCAL/Timers/Timers.h"
 
 
 #include "LEDs_Config.h"
@@ -20,8 +21,8 @@ void LED_ToggleLED(	u8 LEDPort, u8 LEDPin			);
 u8 	 LED_LEDState(	u8 LEDPort, u8 LEDPin			);
 
 
-void LED_Dimmer(u16 pwmVal);
-
+void LED_DimmerVal(u8 pwmVal);
+void LED_DimmerInit();
 
 
 
