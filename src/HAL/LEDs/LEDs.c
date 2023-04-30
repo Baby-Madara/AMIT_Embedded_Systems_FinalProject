@@ -35,6 +35,10 @@ u8 	 LED_LEDState(	u8 LEDPort, u8 LEDPin			){
 }
 
 
+void LED_Dimmer(u16 pwmVal)
+{
+	
+}
 
 
 

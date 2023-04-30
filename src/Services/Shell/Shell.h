@@ -85,7 +85,8 @@ void Shell_firstLogin();
 void Shell_Pause();
 void Shell_wrongUser();
 u8   Shell_WaitCmd();
-u8* Shell_enterStr(bool isHidden);
+u8*  Shell_enterStr(bool isHidden);
+// u8   Shell_Pause_cmdCheck();
 
 
 

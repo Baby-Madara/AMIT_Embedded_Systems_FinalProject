@@ -24,7 +24,8 @@
 			"uart_trial.h": "c",
 			"servo.h": "c",
 			"watchdog_timer.h": "c",
-			"timers.h": "c"
+			"timers.h": "c",
+			"leds.h": "c"
 		},
 		"MicroPython.executeButton": [
 			{

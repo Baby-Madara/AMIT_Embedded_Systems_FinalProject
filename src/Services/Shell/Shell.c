@@ -409,11 +409,40 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 		}break;
 		case SHELL_CMD_LED_DIMMER_LEVEL:
 		{
+			volatile u8 lvl=0;
 			LCD_Clear();
-			LCD_WriteString("you chose 6");
-			_delay_ms(1000);
-			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("Dimmer level (0:5): ");
+			lvl = Shell_WaitCmd();
+			LCD_WriteData(lvl);
+			
+			switch (lvl)
+			{
+			case '0':
+			{
+				LED_Dimmer(0);
+			}break;
+			case '1':
+			{
+				LED_Dimmer(1*200);
+			}break;
+			case '2':
+			{
+				LED_Dimmer(2*200);
+			}break;
+			case '3':
+			{
+				LED_Dimmer(3*200);
+			}break;
+			case '4':
+			{
+				LED_Dimmer(4*200);
+			}break;
+			case '5':
+			{
+				LED_Dimmer(5*200);
+			}break;
+			}
+			
 			
 			
 			
@@ -555,3 +584,18 @@ u8* Shell_enterStr(bool isHidden)
 	}
 }
 
+
+// u8 Shell_Pause_cmdCheck()
+// {
+// 	while(1)
+// 	{
+// 		if 		    (KeyPad_GetRead_click())
+// 		{
+// 			Shell_loginTool = SHELL_KEYPAD_LOGIN;			return;
+// 		}
+// 		else if		(Bluetooth_RxChar())
+// 		{
+// 			Shell_loginTool = SHELL_BLUETOOTH_LOGIN;		return;
+// 		}
+// 	}
+// }

@@ -14,10 +14,10 @@
 
 | cmd                                                           |done/notDone 	|
 |---------------------------------------------------------------|---------------|
-|if (isAdmin == TRUE)    {use keyPad or BLUETOOTH    }	        |				|
-|if (isAdmin == FALSE)   {use keyPad only            }	        |				|
-|if (isAdmin ==FALSE)     {"cannot control door"   }	        |				|
-|if (isAdmin ==TRUE)      {--"add/remove any user" }	        |				|
+|if (isAdmin == TRUE)    {use keyPad or BLUETOOTH    }	        |	__x__		|
+|if (isAdmin == FALSE)   {use keyPad only            }	        |	__x__		|
+|if (isAdmin ==FALSE)     {"cannot control door"   }	        |	__x__		|
+|if (isAdmin ==TRUE)      {--"add/remove any user" }	        |	_x_ __		|
 |userAvailableTrials = 3 , if 3 trials fail, alarm till reset	|	__x__	    |
 
 
