@@ -60,42 +60,41 @@
 
 // #include <avr/io.h>
 // #include <avr/interrupt.h>
-#include <util/delay.h>
+// #include <util/delay.h>
+// #include "UTILS/BitMath.h"
+// #include "UTILS/Maths.h"
 
-#include "Memory_map/mem_map.h"
-#include "UTILS/BitMath.h"
-#include "UTILS/Maths.h"
-#include "MCAL/DIO/DIO.h"
-#include "HAL/LEDs/LEDs.h"
-#include "HAL/Buttons/Buttons.h"
-#include "HAL/LCD/LCD.h"
-#include "HAL/KeyPad/KeyPad.h"
-#include "HAL/Bluetooth/Bluetooth.h"
-#include "HAL/SevenSegment/SevenSegment.h"
+// #include "Memory_map/mem_map.h"
 
-#include "MCAL/I2C/I2C.h"
-#include "MCAL/Ex_Interrupts/Ex_Interrupts.h"
-#include "MCAL/ADC/ADC.h"
-#include "MCAL/Timers/Timers.h"
-#include "MCAL/WatchDog_Timer/WatchDog_Timer.h"
+// #include "MCAL/ADC/ADC.h"
+// #include "MCAL/DIO/DIO.h"
+// #include "MCAL/Ex_Interrupts/Ex_Interrupts.h"
+// #include "MCAL/I2C/I2C.h"
+// #include "MCAL/ICU/ICU.h"
+// #include "MCAL/SPI/SPI.h"
+// #include "MCAL/Timers/Timers.h"
+// #include "MCAL/UART_Trial/UART_Trial.h"
+// #include "MCAL/USART/USART.h"
+// #include "MCAL/WatchDog_Timer/WatchDog_Timer.h"
 
-#include "HAL/Servo/Servo.h"
+// #include "HAL/Bluetooth/Bluetooth.h"
+// #include "HAL/Buttons/Buttons.h"
+// #include "HAL/KeyPad/KeyPad.h"
+// #include "HAL/LCD/LCD.h"
+// #include "HAL/LEDs/LEDs.h"
+// #include "HAL/Servo/Servo.h"
+// #include "HAL/SevenSegment/SevenSegment.h"
 
-#include "MCAL/ICU/ICU.h"
-
-#include "MCAL/SPI/SPI.h"
-#include "MCAL/I2C/I2C.h"
-#include "MCAL/USART/USART.h"
-
-#include "Services/Users/Users.h"
+// #include "Services/Users/Users.h"
 #include "Services/Shell/Shell.h"
 
-#include "MCAL/UART_Trial/UART_Trial.h"
 
 
 
-// ************   uncomment ONLY the line corresponding to the driver you test   ************ //
+
+// ************   uncomment ONLY the line corresponding to sketch you test   ************ //
 #define TESTING_USERS
+// #define TESTING_BLUETOOTH
 // #define TESTING_SPI
 // #define TESTING_I2C
 // #define TESTING_USART
@@ -120,35 +119,47 @@
 #ifdef TESTING_USERS
 
 
+static Users_usersList usersList;
 
 
 int main(){
 	Shell_systemInit();
 	
-	Users_usersList usersList;
 	Users_initList(&usersList, 20);
 	Users_AddEntry(&usersList, "1234", "1234", TRUE);
 
 	Shell_login(&usersList);
-	
 	// volatile u8 read=0;
 
 
 while(1){
 	Shell_cmdChecker();
-	Shell_cmdExecuter();
+	Shell_cmdExecuter(&usersList);
 
-	// LCD_WriteString((u8*)"hi "); _delay_ms(1000);
-
-	// if(Bluetooth_IsAvailable())
-	// {
-	// 	read = Bluetooth_RxChar();
-	// 	LCD_WriteData(read);	
-	// }
 
 }
 }
 #endif
+
+
+
+#ifdef TESTING_BLUETOOTH
+
+int main(){
+	Bluetooth_Init();
+	LCD_Init();
+
+while(1){
+	volatile u8 ch = Bluetooth_RxChar();
+
+	if(ch){LCD_WriteData(ch);}
+
+
+}
+}
+#endif
+
+
 
 
 	
