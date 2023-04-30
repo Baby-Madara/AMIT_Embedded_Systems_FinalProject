@@ -17,6 +17,7 @@
 #include "../../HAL/LEDs/LEDs.h"
 #include "../../HAL/SevenSegment/SevenSegment.h"
 #include "../../HAL/Servo/Servo.h"
+#include "../../HAL/AC/AC.h"
 
 #include "../../MCAL/ADC/ADC.h"
 #include "../../MCAL/DIO/DIO.h"
@@ -67,14 +68,6 @@
 #define SHELL_BLUETOOTH_LOGIN       HIGH
 #define SHELL_KEYPAD_LOGIN          LOW
 
-// extern static Users_usersList usersList;
-// static Users_usersList usersList;
-
-
-
-
-
-
 
 void Shell_systemInit();
 void Shell_login(Users_usersList *usersList);
@@ -86,7 +79,7 @@ void Shell_Pause();
 void Shell_wrongUser();
 u8   Shell_WaitCmd();
 u8*  Shell_enterStr(bool isHidden);
-// u8   Shell_Pause_cmdCheck();
+
 
 
 

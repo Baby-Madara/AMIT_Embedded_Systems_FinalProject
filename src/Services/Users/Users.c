@@ -137,14 +137,14 @@ bool     Users_ReadEntry      (Users_usersList *list, u8 username[],    u8 passw
 }
 
 
-void     Users_GetUsersList   (Users_usersList *list,     u8 *count, u8*  userList[20]){
+void     Users_GetUsersList   (Users_usersList *list,     u8 *count, u8  userList[][20]){
     *count = (list -> length);
 
     Users_userNode *currentNode = list->headPtr;
     u8 i =0;
-    userList[0] = 0 ;
+    strcpy(userList[0], "") ;
     while(currentNode != NULL){
-        userList[i] = currentNode->data.username ;
+        strcpy(userList[i], currentNode->data.username);
 
         currentNode = currentNode->next;
         i++;

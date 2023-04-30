@@ -65,7 +65,7 @@ bool             Users_IsUserExist    (Users_usersList *list,  u8 user[]);      
 void             Users_DeleteEntry    (Users_usersList *list,  u8 username[20]);
 bool             Users_IsFull         (Users_usersList *list);                                                                  // 1 if full
 u8               Users_GetUsedSize    (Users_usersList *list);
-void             Users_GetUsersList   (Users_usersList *list,  u8 *count,        u8* userList[20]);
+void             Users_GetUsersList   (Users_usersList *list,  u8 *count,        u8 userList[][20]);
 
 
 Users_userNode*  Users_newNode        ();

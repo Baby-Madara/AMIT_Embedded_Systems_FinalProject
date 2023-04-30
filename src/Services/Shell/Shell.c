@@ -417,31 +417,34 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			
 			switch (lvl)
 			{
-			case '0':
-			{
-				LED_Dimmer(0);
-			}break;
-			case '1':
-			{
-				LED_Dimmer(1*200);
-			}break;
-			case '2':
-			{
-				LED_Dimmer(2*200);
-			}break;
-			case '3':
-			{
-				LED_Dimmer(3*200);
-			}break;
-			case '4':
-			{
-				LED_Dimmer(4*200);
-			}break;
-			case '5':
-			{
-				LED_Dimmer(5*200);
-			}break;
+				case '0':
+				{
+					LED_Dimmer(0);
+				}break;
+				case '1':
+				{
+					LED_Dimmer(1*200);
+				}break;
+				case '2':
+				{
+					LED_Dimmer(2*200);
+				}break;
+				case '3':
+				{
+					LED_Dimmer(3*200);
+				}break;
+				case '4':
+				{
+					LED_Dimmer(4*200);
+				}break;
+				case '5':
+				{
+					LED_Dimmer(5*200);
+				}break;
 			}
+			_delay_ms(1500);
+			LCD_Clear();
+			LCD_WriteString("press A for user manual");
 			
 			
 			
@@ -450,36 +453,66 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 		case SHELL_CMD_AC_AUTO:
 		{
 			LCD_Clear();
-			LCD_WriteString("you chose 7");
+			LCD_WriteString("you chose AC Auto");
 			_delay_ms(1000);
 			LCD_Clear();
 			LCD_WriteString("press A for user manual");
-			
 			
 			
 		}break;
 		case SHELL_CMD_AC_MANUAL:
 		{
+			volatile u8 lvl=0;
 			LCD_Clear();
-			LCD_WriteString("you chose 8");
-			_delay_ms(1000);
+			LCD_WriteString("Dimmer level (0:5): ");
+			lvl = Shell_WaitCmd();
+			LCD_WriteData(lvl);
+			
+			switch (lvl)
+			{
+				case '0':
+				{
+					AC_manualLvl(0);
+				}break;
+				case '1':
+				{
+					AC_manualLvl(1*200);
+				}break;
+				case '2':
+				{
+					AC_manualLvl(2*200);
+				}break;
+				case '3':
+				{
+					AC_manualLvl(3*200);
+				}break;
+				case '4':
+				{
+					AC_manualLvl(4*200);
+				}break;
+				case '5':
+				{
+					AC_manualLvl(5*200);
+				}break;
+			}
+			_delay_ms(1500);
 			LCD_Clear();
 			LCD_WriteString("press A for user manual");
-			
 			
 			
 		}break;
 		case SHELL_CMD_PRINT_USERS_LIST:
 		{
 			LCD_Clear();
-			static volatile u8 	strList[][20]={""},
+			volatile u8 	strList[10][20]={""},
 								ct=0;
 
 			strList[0][0] = "";
-			ct=0;
+			ct=5;
 
 			Users_GetUsersList(usersList, &ct, strList);
-			for(u8 i=0; i<3; i++)
+
+			for(u8 i=0; i<ct; i++)
 			{
 				LCD_WriteString(strList[i]);
 				_delay_ms(1000);
@@ -585,17 +618,5 @@ u8* Shell_enterStr(bool isHidden)
 }
 
 
-// u8 Shell_Pause_cmdCheck()
-// {
-// 	while(1)
-// 	{
-// 		if 		    (KeyPad_GetRead_click())
-// 		{
-// 			Shell_loginTool = SHELL_KEYPAD_LOGIN;			return;
-// 		}
-// 		else if		(Bluetooth_RxChar())
-// 		{
-// 			Shell_loginTool = SHELL_BLUETOOTH_LOGIN;		return;
-// 		}
-// 	}
-// }
+
+
