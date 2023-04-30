@@ -137,10 +137,11 @@ while(1){
 	Shell_cmdExecuter(&usersList);
 	Shell_devicesUpdate();
 
-	LCD_Clear();
-	LCD_WriteString("temperature: ");
+	// LCD_Clear();
+	// LCD_WriteString("temp. ");
+	LCD_GoTo(1, 11);
 	LCD_WriteInt(AC_currentTemperature());
-	LCD_WriteString(" °C");
+	LCD_WriteString(" C");
 
 
 }

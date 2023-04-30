@@ -144,7 +144,7 @@ void Shell_login(Users_usersList *usersList)
 	LCD_WriteString((u8*)"press # to cont");
 	Shell_Pause();
 	LCD_Clear();
-	LCD_WriteString("press A for user manual");
+	LCD_WriteString("press A for manual. temp: ");
     
 }
 
