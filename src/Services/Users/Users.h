@@ -4,10 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "../../UTILS/STD_Types.h"
 #include "../../UTILS/BitMath.h"
 #include "../../UTILS/Maths.h"
 #include "../../HAL/LCD/LCD.h"
+#include "../../MCAL/EEPROMTrial/EEPROMTrial.h"
 
 
 /**
@@ -69,6 +71,66 @@ bool             Users_IsFull         (Users_usersList *list);                  
 u8               Users_GetUsedSize    (Users_usersList *list);
 void             Users_GetUsersList   (Users_usersList *list,  u8 *count,        u8 userList[][20]);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+///         USINGEEPROM:       ///
+
+
+typedef struct Users_user_EEPROM{
+    volatile u8    username[20];
+    volatile u8    password[20];
+    volatile bool  isAdmin;
+
+}Users_user_EEPROM;
+
+typedef struct Users_userNode_EEPROM{
+    volatile        Users_user_EEPROM         data;
+    volatile        u16                       next;
+}Users_userNode_EEPROM;
+
+
+typedef struct Users_usersList_EEPROM{
+    volatile u8              length;
+    volatile u8              maxLength;
+    volatile u16             headPtr;
+
+}Users_usersList_EEPROM;                                        //"dataBase" is just the entry for the linked list node which hold the data, "dataBase" also holds and tracks the database state (length, max length that user will set it to 10 btw, aaaannnd the entry for the first node)
+
+
+void             Users_initList_EEPROM(Users_usersList_EEPROM *base,  u8 maxLength);
+
+
+
+void             Users_userNodeInit_EEPROM   (Users_userNode_EEPROM *node);
+Users_userNode_EEPROM*  Users_newNode_EEPROM        ();
+
+
+// **************************  REQUIRED  ************************* //
+
+
+bool   Users_AddEntry_EEPROM     (Users_usersList_EEPROM *list,  u8 username[20],  u8  password[20],    bool isAdmin);
+bool   Users_ReadEntry_EEPROM    (Users_usersList_EEPROM *list,  u8 username[],    u8  password[],      bool *isAdmin);
+bool   Users_EditEntry_EEPROM    (Users_usersList_EEPROM *list,  u8 oldUser[],     u8 newUser[],  u8 newPass[],      bool isAdmin);
+bool   Users_IsUserExist_EEPROM  (Users_usersList_EEPROM *list,  u8 user[]);                                                      // 1 if exists
+void   Users_DeleteEntry_EEPROM  (Users_usersList_EEPROM *list,  u8 username[20]);
+bool   Users_IsFull_EEPROM       (Users_usersList_EEPROM *list);                                                                  // 1 if full
+u8     Users_GetUsedSize_EEPROM  (Users_usersList_EEPROM *list);
+void   Users_GetUsersList_EEPROM (Users_usersList_EEPROM *list,  u8 *count,        u8 userList[][20]);
+
+
+
+void Users_SaveNodeInEEPROM(Users_userNode_EEPROM node, u16 addr);
 
 
 #endif // Users_H_INCLUDED

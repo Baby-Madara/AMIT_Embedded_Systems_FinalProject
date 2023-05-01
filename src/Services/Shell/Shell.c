@@ -10,6 +10,8 @@ volatile Users_user loggedUser;
 volatile bool Shell_loginTool= SHELL_KEYPAD_LOGIN;
 
 
+volatile u16 firstNodeAddr = 0x0005;
+
 
 void Shell_firstLogin()
 {
@@ -160,6 +162,7 @@ void Shell_systemInit()
 
 	ADC_DisableAutoTrigger();
 	ADC_Init(ADC_CLK_PS_128);
+	Stepper_init();
 	// ADC_IntEnable();
 	
 	LED_DimmerInit();
@@ -276,7 +279,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 					strcpy(tempStrPass, Shell_enterStr(TRUE));
 					LCD_Clear();
 
-					LCD_WriteString("is Admin? (1 TRUE/0 FALSE): "); 
+					LCD_WriteString("is Admin? (1:TRUE/0:FALSE): "); 
 					(Shell_WaitCmd() == '1')  ?  (tempIsAdmin = 1)  :  (tempIsAdmin = 0);
 					LCD_WriteData(tempIsAdmin+48);
 					_delay_ms(2000);
@@ -398,12 +401,13 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			if(loggedUser.isAdmin == TRUE)
 			{
 				static volatile bool doorState = SHELL_DOOR_LOCKED;
-				Servo_write(doorState*180);
+
+				// Servo_write(doorState*180);
 
 				switch(doorState)
 				{
-					case SHELL_DOOR_UNLOCKED: LCD_WriteString("you closed door :("); break;
-					case SHELL_DOOR_LOCKED:   LCD_WriteString("you opened door :)"); break;
+					case SHELL_DOOR_UNLOCKED: Stepper_open();  LCD_WriteString("you closed door :("); break;
+					case SHELL_DOOR_LOCKED:   Stepper_close(); LCD_WriteString("you opened door :)"); break;
 				}
 				doorState = !doorState;
 
@@ -428,8 +432,8 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 
 			switch(LED1State)
 			{
-				case SHELL_DOOR_UNLOCKED: LCD_WriteString("LED1 turned off :("); break;
-				case SHELL_DOOR_LOCKED:   LCD_WriteString("LED1 turned on  :)"); break;
+				case SHELL_LED_OFF: LCD_WriteString("LED1 turned off :("); break;
+				case SHELL_LED_ON:   LCD_WriteString("LED1 turned on  :)"); break;
 			}
 			LED1State = !LED1State;
 
@@ -447,8 +451,8 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 
 			switch(LED2State)
 			{
-				case SHELL_DOOR_UNLOCKED: LCD_WriteString("LED2 turned off :("); break;
-				case SHELL_DOOR_LOCKED:   LCD_WriteString("LED2 turned on  :)"); break;
+				case SHELL_LED_OFF: LCD_WriteString("LED2 turned off :("); break;
+				case SHELL_LED_ON:   LCD_WriteString("LED2 turned on  :)"); break;
 			}
 			LED2State = !LED2State;
 
@@ -467,8 +471,8 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 
 			switch(LED3State)
 			{
-				case SHELL_DOOR_UNLOCKED: LCD_WriteString("LED3 turned off :("); break;
-				case SHELL_DOOR_LOCKED:   LCD_WriteString("LED3 turned on  :)"); break;
+				case SHELL_LED_OFF: LCD_WriteString("LED3 turned off :("); break;
+				case SHELL_LED_ON:   LCD_WriteString("LED3 turned on  :)"); break;
 			}
 			LED3State = !LED3State;
 
@@ -480,18 +484,36 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 		case SHELL_CMD_LED4_TOGGLE:
 		{
 			LCD_Clear();
-			LCD_WriteString("you chose 4");
+			static volatile bool LED4State = SHELL_DOOR_LOCKED;
+			LED_ToggleLED(LED3);
+
+			switch(LED4State)
+			{
+				case SHELL_LED_OFF: LCD_WriteString("LED4 turned off :("); break;
+				case SHELL_LED_ON:   LCD_WriteString("LED4 turned on  :)"); break;
+			}
+			LED4State = !LED4State;
+
 			_delay_ms(1000);
 			LCD_Clear();
 			LCD_WriteString("press A for user manual");
 			
 			
-			
 		}break;
 		case SHELL_CMD_LED5_TOGGLE:
 		{
+			
 			LCD_Clear();
-			LCD_WriteString("you chose 5");
+			static volatile bool LED5State = SHELL_DOOR_LOCKED;
+			LED_ToggleLED(LED4);
+
+			switch(LED5State)
+			{
+				case SHELL_LED_OFF: LCD_WriteString("LED5 turned off :("); break;
+				case SHELL_LED_ON:   LCD_WriteString("LED5 turned on  :)"); break;
+			}
+			LED5State = !LED5State;
+
 			_delay_ms(1000);
 			LCD_Clear();
 			LCD_WriteString("press A for user manual");

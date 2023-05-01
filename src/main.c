@@ -13,13 +13,13 @@
  *                                                [PDIP]:                                              
  *             .                             __________________                          .             
  *             .  Btn0         (XCK/T0) PB0 |1       @       40| PA0 (ADC0)       N/C    .    LCD_EN   
- *             .  LCD_RS           (T1) PB1 |2               39| PA1 (ADC1)       Pot    .             
- *             .  LCD_RW    (INT2/AIN0) PB2 |3               38| PA2 (ADC2)       Relay  .             
- *             .  LCD_EN     (OC0/AIN1) PB3 |4               37| PA3 (ADC3)       Buzzer .             
- *             .  SS              (_SS) PB4 |5               36| PA4 (ADC4)       LCD_D4 .             
- *             .  MOSI           (MOSI) PB5 |6               35| PA5 (ADC5)       LCD_D5 .             
- *             .  MISO           (MISO) PB6 |7               34| PA6 (ADC6)       LCD_D6 .             
- *             .  SCK             (SCK) PB7 |8               33| PA7 (ADC7)       LCD_D7 .             
+ *      LCD_RS .  LCD_RS           (T1) PB1 |2               39| PA1 (ADC1)       Pot    .    Pot (as a temperature sensor)      
+ *      LCD_RW .  LCD_RW    (INT2/AIN0) PB2 |3               38| PA2 (ADC2)       Relay  .             
+ *      LCD_EN .  LCD_EN     (OC0/AIN1) PB3 |4               37| PA3 (ADC3)       Buzzer .             
+ *             .  SS              (_SS) PB4 |5               36| PA4 (ADC4)       LCD_D4 .    LCD_D4   
+ *             .  MOSI           (MOSI) PB5 |6               35| PA5 (ADC5)       LCD_D5 .    LCD_D5   
+ *             .  MISO           (MISO) PB6 |7               34| PA6 (ADC6)       LCD_D6 .    LCD_D6   
+ *             .  SCK             (SCK) PB7 |8               33| PA7 (ADC7)       LCD_D7 .    LCD_D7   
  *             .                     _RESET |9               32| AREF                    .             
  *             .                        VCC |10   ATMega32   31| GND                     .             
  *             .                        GND |11              30| AVCC                    .             
@@ -38,10 +38,14 @@
  *  
  * @sw_archeticture: 
  *     **************************************** Software Architecture *******************************************************************************
- *     * [UTILS]    || [main]        |                     main.c                                                                                   *
+ *     *   [UTILS]  || [main]        |                     main.c                                                                                   *
+ *     *            ||------------------------------------------------------------------------------------------------------------------------------*
  *     *            || [Services]    |     users_LinkedList - Shell                                                                                 *
+ *     *            ||------------------------------------------------------------------------------------------------------------------------------*
  *     *            || [HAL]         | Lamps[1:5] - Dimmer[L6] - Door ctrlr - AC ctrlr - alarm - LCD - keaypad - tempSensor - EEPROM - Btns         *
+ *     *            ||------------------------------------------------------------------------------------------------------------------------------*
  *     *  STD_Types || [MCAL]        | DIO - General_Interrupts - External_Interrupts - ADC - Timers WDTimer - UART - I2C - SPI                     *
+ *     *            ||------------------------------------------------------------------------------------------------------------------------------*
  *     *  BIT_MATH  || [MEM_MAPPING] |                 MCU registers                                                                                *
  *     **********************************************************************************************************************************************
  *  
@@ -94,26 +98,82 @@
 
 // ************   uncomment ONLY the line corresponding to sketch you test   ************ //
 #define TESTING_SHELL
+// #define TESTING_EEPROM
+// #define TESTING_EEPROM_USERS
 // #define TESTING_BLUETOOTH
-// #define TESTING_SPI
-// #define TESTING_I2C
 // #define TESTING_USART
-// #define TESTING_ICU
-// #define TESTING_WATCHDOG_TIMER
 // #define TESTING_TIMERS
 // #define TESTING_ADC
 // #define TESTING_EX_INTERRUPTS
+// #define TESTING_SPI
+// #define TESTING_I2C
+// #define TESTING_ICU
+// #define TESTING_WATCHDOG_TIMER
 //////
-// #define TESTING_SERVO
-// #define TESTING_SEVEN_SEGMENTS
 // #define TESTING_KEYPAD
 // #define TESTING_LCD
-// #define TESTING_BUTTONS
 // #define TESTING_LEDS
 // #define TESTING_DIO
 // #define TESTING_BIT_MATH
+// #define TESTING_BUTTONS
+// #define TESTING_SERVO
+// #define TESTING_SEVEN_SEGMENTS
 //////
 // #define GENERAL_TEST
+
+
+
+#ifdef TESTING_EEPROM_USERS
+
+
+
+
+int main(){
+
+
+
+while(1){
+
+	
+	
+}
+}
+
+
+#endif
+
+
+#ifdef TESTING_EEPROM
+
+volatile u16 baseAddr = 0x0005;
+
+
+int main(){
+	
+	LCD_Init();
+	LCD_Clear();
+	
+	EEPROM_writeStr("Ahmed ", baseAddr);
+	
+	volatile u8 temP = 0;
+	volatile u8 buf[100] ="";
+	
+
+while(1){
+	temP = EEPROM_readChar(baseAddr)+3;
+	
+	EEPROM_writeChar(temP, baseAddr);
+	_delay_ms(500);
+	
+	EEPROM_readStr(baseAddr, buf);
+	LCD_WriteString(buf);
+	
+	
+}
+}
+
+
+#endif
 
 
 #ifdef TESTING_SHELL
@@ -123,7 +183,8 @@ static Users_usersList usersList;
 
 
 int main(){
-
+	
+	
 	Users_initList(&usersList, 20);
 	Users_AddEntry(&usersList, "1234", "1234", TRUE);
 	
@@ -167,9 +228,6 @@ while(1){
 #endif
 
 
-
-
-	
 	// DIO_PinMode(DIO_D7, OUTPUT);
 	// Timers_T2_Init(TIMERS_T2_CLK_PS_64, TIMERS_T2_MODE_FASTPWM, TIMERS_T2_OCPIN_NON_INVERTING_MODE, 200);
 

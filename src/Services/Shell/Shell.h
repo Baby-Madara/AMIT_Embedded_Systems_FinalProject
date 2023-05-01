@@ -1,5 +1,5 @@
-#ifndef SYSTEM_H
-#define SYSTEM_H
+#ifndef SHELL_H
+#define SHELL_H
 
 
 // #include <avr/io.h>
@@ -10,18 +10,20 @@
 #include "../../UTILS/Maths.h"
 #include "../../UTILS/STD_Types.h"
 
+#include "../../HAL/AC/AC.h"
 #include "../../HAL/Buttons/Buttons.h"
 #include "../../HAL/Bluetooth/Bluetooth.h"
+#include "../../HAL/Door_Stepper/Door_stepper.h"
 #include "../../HAL/KeyPad/KeyPad.h"
 #include "../../HAL/LCD/LCD.h"
 #include "../../HAL/LEDs/LEDs.h"
 #include "../../HAL/SevenSegment/SevenSegment.h"
 #include "../../HAL/Servo/Servo.h"
-#include "../../HAL/AC/AC.h"
 
 #include "../../MCAL/ADC/ADC.h"
 #include "../../MCAL/DIO/DIO.h"
 #include "../../MCAL/Ex_Interrupts/Ex_Interrupts.h"
+#include "../../MCAL/EEPROMTrial/EEPROMTrial.h"
 #include "../../MCAL/I2C/I2C.h"
 #include "../../MCAL/ICU/ICU.h"
 #include "../../MCAL/SPI/SPI.h"
@@ -61,8 +63,11 @@
 #define SHELL_CMD_AC_MANUAL            '8'
 #define SHELL_CMD_PRINT_USERS_LIST    '9'
 
-#define SHELL_DOOR_LOCKED   LOW
-#define SHELL_DOOR_UNLOCKED HIGH
+#define SHELL_DOOR_LOCKED        LOW
+#define SHELL_DOOR_UNLOCKED      HIGH
+
+#define SHELL_LED_OFF         HIGH
+#define SHELL_LED_ON          LOW
 
 
 #define SHELL_BLUETOOTH_LOGIN       HIGH

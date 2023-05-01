@@ -28,7 +28,12 @@
 			"leds.h": "c",
 			"ac.h": "c",
 			"shell.h": "c",
-			"leds_config.h": "c"
+			"leds_config.h": "c",
+			"dio.h": "c",
+			"eepromtrial.h": "c",
+			"stdlib.h": "c",
+			"time.h": "c",
+			"door_stepper.h": "c"
 		},
 		"MicroPython.executeButton": [
 			{
