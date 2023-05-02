@@ -19,8 +19,6 @@ void Shell_firstLogin()
 }
 
 
-
-
 void Shell_login(Users_usersList *usersList)
 {
 	volatile u8	tempStrPasswordComp[20] = {0}   ;
@@ -99,6 +97,7 @@ void Shell_login(Users_usersList *usersList)
 		}
 	}
 }
+
 
 void Shell_systemInit()
 {
@@ -271,18 +270,14 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 						LCD_WriteString("new user: ");
 						strcpy(tempStrNewUser, Shell_enterStr(FALSE));
 						LCD_Clear();
-
 						LCD_WriteString("new password: ");
 						strcpy(tempStrPass, Shell_enterStr(TRUE));
 						LCD_Clear();
-
 						LCD_WriteString("make admin? 1:yes 0:no ");
 						tempIsAdmin = (Shell_WaitCmd()-48);
 						LCD_Clear();
-
 						Users_EditEntry(usersList, tempStrOldUser, tempStrNewUser, tempStrPass, tempIsAdmin);
 						
-
 					}
 					else
 					{
@@ -306,7 +301,6 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 						_delay_ms(2000);
 						LCD_Clear();
 						
-
 					}
 					else
 					{
@@ -318,7 +312,6 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 				}
 				
 				
-
 				///////////////////////
 			}
 				
@@ -330,20 +323,16 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 		case SHELL_CMD_DOOR_TOGGLE:
 		{
 			LCD_Clear();
-
 			if(loggedUser.isAdmin == TRUE)
 			{
 				static volatile bool doorState = SHELL_DOOR_LOCKED;
-
 				// Servo_write(doorState*180);
-
 				switch(doorState)
 				{
 					case SHELL_DOOR_UNLOCKED: Stepper_open();  LCD_WriteString("you closed door :("); break;
 					case SHELL_DOOR_LOCKED:   Stepper_close(); LCD_WriteString("you opened door :)"); break;
 				}
 				doorState = !doorState;
-
 				_delay_ms(1000);
 			}
 			else
@@ -362,14 +351,12 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			LCD_Clear();
 			static volatile bool LED1State = SHELL_DOOR_LOCKED;
 			LED_ToggleLED(LED0);
-
 			switch(LED1State)
 			{
 				case SHELL_LED_OFF: LCD_WriteString("LED1 turned off :("); break;
 				case SHELL_LED_ON:   LCD_WriteString("LED1 turned on  :)"); break;
 			}
 			LED1State = !LED1State;
-
 			_delay_ms(1000);
 			LCD_Clear();
 			LCD_WriteString("A:menu");
@@ -381,14 +368,12 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			LCD_Clear();
 			static volatile bool LED2State = SHELL_DOOR_LOCKED;
 			LED_ToggleLED(LED1);
-
 			switch(LED2State)
 			{
 				case SHELL_LED_OFF: LCD_WriteString("LED2 turned off :("); break;
 				case SHELL_LED_ON:   LCD_WriteString("LED2 turned on  :)"); break;
 			}
 			LED2State = !LED2State;
-
 			_delay_ms(1000);
 			LCD_Clear();
 			LCD_WriteString("A:menu");
@@ -401,14 +386,12 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			LCD_Clear();
 			static volatile bool LED3State = SHELL_DOOR_LOCKED;
 			LED_ToggleLED(LED2);
-
 			switch(LED3State)
 			{
 				case SHELL_LED_OFF: LCD_WriteString("LED3 turned off :("); break;
 				case SHELL_LED_ON:   LCD_WriteString("LED3 turned on  :)"); break;
 			}
 			LED3State = !LED3State;
-
 			_delay_ms(1000);
 			LCD_Clear();
 			LCD_WriteString("A:menu");
@@ -419,14 +402,12 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			LCD_Clear();
 			static volatile bool LED4State = SHELL_DOOR_LOCKED;
 			LED_ToggleLED(LED3);
-
 			switch(LED4State)
 			{
 				case SHELL_LED_OFF: LCD_WriteString("LED4 turned off :("); break;
 				case SHELL_LED_ON:   LCD_WriteString("LED4 turned on  :)"); break;
 			}
 			LED4State = !LED4State;
-
 			_delay_ms(1000);
 			LCD_Clear();
 			LCD_WriteString("A:menu");
@@ -439,14 +420,12 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			LCD_Clear();
 			static volatile bool LED5State = SHELL_DOOR_LOCKED;
 			LED_ToggleLED(LED4);
-
 			switch(LED5State)
 			{
 				case SHELL_LED_OFF: LCD_WriteString("LED5 turned off :("); break;
 				case SHELL_LED_ON:   LCD_WriteString("LED5 turned on  :)"); break;
 			}
 			LED5State = !LED5State;
-
 			_delay_ms(1000);
 			LCD_Clear();
 			LCD_WriteString("A:menu");
@@ -553,12 +532,14 @@ void Shell_cmdExecuter(Users_usersList *usersList)
     
 }
 
+
 u8 Shell_WaitCmd()
 {
 	volatile u8 cmdKP = 0;
 	volatile u8 cmdBT = 0;
 
-	while(1){
+	while(1)
+	{
 		cmdKP = KeyPad_GetRead_click();
 		cmdBT = Bluetooth_RxChar();
 
@@ -566,6 +547,7 @@ u8 Shell_WaitCmd()
 		else if	(cmdBT) {Shell_loginTool = SHELL_BLUETOOTH_LOGIN; 	return cmdBT;}
 	}
 }
+
 
 void Shell_wrongUser()
 {
@@ -590,6 +572,7 @@ void Shell_wrongUser()
         while (1)     ;
     }
 }
+
 
 void Shell_Pause()
 {
@@ -647,4 +630,14 @@ void Shell_devicesUpdate()
 	currentTemperature = AC_currentTemperature(); 	//assume 0-> 10deg    1023->70deg Celcuis
 	
 }
+
+
+void Shell_ScreenUpdate()
+{
+	LCD_GoTo(1, 6);
+	LCD_WriteString("temp ");
+	LCD_WriteInt(AC_currentTemperature());
+	LCD_WriteString(" C");
+}
+
 

@@ -202,23 +202,29 @@ bool             Users_EditEntry      (Users_usersList *list,  u8 oldUser[],  u8
 
 void   Users_initList_EEPROM(Users_usersList_EEPROM *list,  u8 maxLength, u8 listAddr)
 {
+    Users_initList(list, maxLength);
     //u8 len     u8 maxLen     u16 headPtr
-    EEPROM_writeChar(list->length, listAddr);
+    EEPROM_writeChar(list->length,    listAddr);
     EEPROM_writeChar(list->maxLength, listAddr+1);
-    EEPROM_writeChar(list->headPtr, listAddr+1);
-    list->maxLength;
-    
-    
-    
+    EEPROM_writeChar(list->headPtr,   listAddr+2);
+    // sizeof(Users_usersList_EEPROM);
 }
 
 void Users_SaveNodeInEEPROM(Users_userNode_EEPROM node, u16 addr)
 {
     Users_userNode_EEPROM* nodePtr= &node;
-
     for(int i=0; i< sizeof(Users_userNode_EEPROM); i++)
     {
         EEPROM_writeChar(  (*(u8*)(nodePtr+i))     ,     addr+i);
+    }
+}
+
+void Users_DeleteNodeFromEEPROM(Users_userNode_EEPROM node, u16 addr)
+{
+    Users_userNode_EEPROM* nodePtr= &node;
+    for(int i=0; i< sizeof(Users_userNode_EEPROM); i++)
+    {
+        EEPROM_writeChar(  '\0'     ,     addr+i);
     }
 }
 
@@ -231,11 +237,6 @@ Users_userNode_EEPROM*  Users_newNode_EEPROM        ()
 {
 
 }
-
-
-
-// **************************  REQUIRED  ************************* //
-
 
 bool   Users_AddEntry_EEPROM     (Users_usersList_EEPROM *list,  u8 username[20],  u8  password[20],    bool isAdmin)
 {

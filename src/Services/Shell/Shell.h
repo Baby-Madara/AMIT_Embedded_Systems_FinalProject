@@ -84,7 +84,7 @@ void Shell_wrongUser();
 u8   Shell_WaitCmd();
 u8*  Shell_enterStr(bool isHidden);
 void Shell_devicesUpdate();
-
+void Shell_ScreenUpdate();
 
 
 

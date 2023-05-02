@@ -61,18 +61,10 @@ void             Users_GetUsersList   (Users_usersList *list,  u8 *count,       
 
 
 
-
-
-
-
-
-
-
-
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///         USINGEEPROM:       ///
+///         not_finished_yet   ///
 
 
 typedef struct Users_user_EEPROM{
@@ -98,7 +90,6 @@ typedef struct Users_usersList_EEPROM{
 
 
 
-// **************************  REQUIRED  ************************* //
 void                    Users_initList_EEPROM(Users_usersList_EEPROM *list,  u8 maxLength, u8 listAddr);
 
 void                    Users_userNodeInit_EEPROM   (Users_userNode_EEPROM *node);

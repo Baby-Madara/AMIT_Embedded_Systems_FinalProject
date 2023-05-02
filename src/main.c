@@ -189,14 +189,10 @@ while(1){
 
 
 static Users_usersList usersList;
-
-
 int main(){
-	
 	
 	Users_initList(&usersList, 20);
 	Users_AddEntry(&usersList, "1234", "1234", TRUE);
-	
 
 	Shell_systemInit();
 	Shell_login(&usersList);
@@ -206,15 +202,7 @@ while(1){
 	Shell_cmdChecker();
 	Shell_cmdExecuter(&usersList);
 	Shell_devicesUpdate();
-
-	// LCD_Clear();
-	// LCD_WriteString("temp. ");
-	LCD_GoTo(1, 6);
-	LCD_WriteString("temp ");
-	LCD_WriteInt(AC_currentTemperature());
-	LCD_WriteString(" C");
-
-
+	Shell_ScreenUpdate();
 }
 }
 #endif
