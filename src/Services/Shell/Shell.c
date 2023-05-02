@@ -1,9 +1,9 @@
 #include "Shell.h"
 
 
-volatile u8 available_login_trials 	= 3,
-			userCmd					= 0,
-			currentTemperature      = 0;
+volatile u8 available_login_trials 	= 3;
+volatile u8 userCmd					= 0;
+volatile u8 currentTemperature      = 0;
 
 volatile Users_user loggedUser;
 
@@ -23,9 +23,9 @@ void Shell_firstLogin()
 
 void Shell_login(Users_usersList *usersList)
 {
-	volatile u8	tempStrPasswordComp[20] = {0},
-				tempStrUser[20]         = {0},
-				tempStrPass[20]         = {0}	;
+	volatile u8	tempStrPasswordComp[20] = {0}   ;
+	volatile u8	tempStrUser[20]         = {0}   ;
+	volatile u8	tempStrPass[20]         = {0}   ;
 	volatile bool tempIsAdmin = 0;
 
 
@@ -71,7 +71,6 @@ void Shell_login(Users_usersList *usersList)
 					_delay_ms(2000);
 					LCD_Clear();
 					
-					
 					Shell_login(usersList); 			//recursion
 					return;
 				}
@@ -99,15 +98,6 @@ void Shell_login(Users_usersList *usersList)
 			LCD_Clear();
 		}
 	}
-
-
-	// LCD_Clear();
-	// LCD_WriteString((u8*)"Welcome home ^_^");
-	// LCD_WriteString((u8*)"press # to cont");
-	// Shell_Pause();
-	// LCD_Clear();
-	// LCD_WriteString("press A for manual. temp: ");
-    
 }
 
 void Shell_systemInit()
@@ -132,8 +122,8 @@ void Shell_systemInit()
 
 void Shell_cmdChecker()
 {
-	volatile u8 chBT = KeyPad_GetRead_click(),
-				chKP = Bluetooth_RxChar()    ;
+	volatile u8 chBT = KeyPad_GetRead_click();
+	volatile u8 chKP = Bluetooth_RxChar()    ;
 
 	if 		(chKP)
 	{
@@ -211,19 +201,10 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			}
 			else if	(loggedUser.isAdmin == TRUE)
 			{
-				volatile u8 
-							// tempCharUser            = 0,
-							tempStrUser[20]         = {0},
-							// tempIndexUser           = 0,
-				
-							// tempCharPass            = 0,
-							tempStrPass[20]         = {0};
-							// tempIndexPass           = 0,
-							
-							// tempStrPasswordComp[20] = {0}	;
-				
+				volatile u8 tempStrUser[20]         = {0};
+				volatile u8 tempStrPass[20]         = {0};
 				volatile bool tempIsAdmin = FALSE;
-
+				
 				LCD_WriteString("new user: "); 
 				strcpy(tempStrUser, Shell_enterStr(FALSE));
 				LCD_Clear();
@@ -268,20 +249,10 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			}
 			else if	(loggedUser.isAdmin == TRUE)
 			{
-				volatile u8 tempCharNewUser            = 0,
-							tempStrNewUser[20]         = {0},
-							tempIndexNewUser           = 0,
-				
-							tempCharPass            = 0,
-							tempStrPass[20]         = {0},
-							tempIndexPass           = 0,
-				
-							tempCharOldUser            = 0,
-							tempStrOldUser[20]         = {0},
-							tempIndexOldUser           = 0,
-							
-							tempCmd 				= 0,
-							tempStrPasswordComp[20] = {0}	;
+				volatile u8 tempStrNewUser[20]      = {0};
+				volatile u8 tempStrPass[20]         = {0};
+				volatile u8 tempStrOldUser[20]      = {0};
+				volatile u8 tempCmd 				= 0  ;
 				volatile bool tempIsAdmin = FALSE;
 
 				LCD_Clear();
@@ -557,8 +528,8 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 		case SHELL_CMD_PRINT_USERS_LIST:
 		{
 			LCD_Clear();
-			volatile u8 	strList[10][20]={""},
-								ct=0;
+			volatile u8 strList[10][20]={""};
+			volatile u8 ct=0;
 
 			strList[0][0] = "";
 			ct=5;
@@ -584,8 +555,8 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 
 u8 Shell_WaitCmd()
 {
-	volatile u8 cmdKP = 0,
-				cmdBT = 0;
+	volatile u8 cmdKP = 0;
+	volatile u8 cmdBT = 0;
 
 	while(1){
 		cmdKP = KeyPad_GetRead_click();
@@ -638,11 +609,11 @@ void Shell_Pause()
 
 u8* Shell_enterStr(bool isHidden)
 {
-	static volatile u8 	str[20]="",
-						ch=0,
-						indx=0,
-						chBT=0,
-						chKP=0;
+	static volatile u8 	str[20]="";
+	static volatile u8 	ch=0;
+	static volatile u8 	indx=0;
+	static volatile u8 	chBT=0;
+	static volatile u8 	chKP=0;
 	
 	str[0]="";
 	ch=0,
