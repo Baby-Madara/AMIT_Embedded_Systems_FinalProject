@@ -23,130 +23,90 @@ void Shell_firstLogin()
 
 void Shell_login(Users_usersList *usersList)
 {
+	volatile u8	tempStrPasswordComp[20] = {0},
+				tempStrUser[20]         = {0},
+				tempStrPass[20]         = {0}	;
+	volatile bool tempIsAdmin = 0;
+
+
+	available_login_trials = 3;
+	
     LCD_WriteString("login... use # to enter"); 
 	Shell_Pause();
 	LCD_Clear();
 
 	LCD_WriteString("user: ");
+	strcpy(tempStrUser, Shell_enterStr(FALSE));
+	LCD_Clear();
 	
-	volatile u8 tempCharUser            = 0,
-				tempStrUser[20]         = {0},
-				tempIndexUser           = 0,
-	
-				tempCharPass            = 0,
-				tempStrPass[20]         = "",
-				tempIndexPass           = 0,
-				
-				tempStrPasswordComp[20] = {0}	;
-
-	volatile u8 cmdKP = 0,
-				cmdBT = 0;
-
-	volatile bool tempIsAdmin = 0;
-	available_login_trials = 3;
-
-	while (tempCharUser != '#' )
+	while(1)
 	{
-		cmdKP = KeyPad_GetRead_click();
-		cmdBT = Bluetooth_RxChar();
-		if		(cmdKP) {tempCharUser = cmdKP; Shell_loginTool = SHELL_KEYPAD_LOGIN;		}
-		else if	(cmdBT) {tempCharUser = cmdBT; Shell_loginTool = SHELL_BLUETOOTH_LOGIN; 	}
-		else			{tempCharUser = 0;		}
-
-		if((tempCharUser != '#') && (tempCharUser != 0))
+		// if user is right, 	check password
+		// else, 				wrongUser(), insert user again
+		if( Users_IsUserExist(usersList, tempStrUser)  )
 		{
-			LCD_WriteData(tempCharUser);
-			tempStrUser[tempIndexUser] = tempCharUser;
-			++tempIndexUser;
-		}
-		else if(tempCharUser == '#')
-		{
-			tempStrUser[tempIndexUser]='\0';
 			
-			if( Users_IsUserExist(usersList, tempStrUser)  )
+			LCD_Clear();
+			LCD_WriteString((u8*)"pswd: ");
+			strcpy(tempStrPass, Shell_enterStr(TRUE));
+			LCD_Clear();
+
+			Users_ReadEntry(usersList, tempStrUser, tempStrPasswordComp, &tempIsAdmin);
+			
+			// 		// if password true, login, break, 
+			// 		// else if password false --> Shell_wrongUser();
+			if (!strcmp(tempStrPasswordComp, tempStrPass) )
 			{
 				LCD_Clear();
-				LCD_WriteString((u8*)"pswd: ");
-				tempCharPass =	tempIndexPass = 0;
+
+				strcpy(loggedUser.username, tempStrUser); 
+				strcpy(loggedUser.password, tempStrPass);
+				loggedUser.isAdmin = tempIsAdmin;
+				available_login_trials = 3;
 				
-				while (tempCharPass != '#' )
+				if((loggedUser.isAdmin == FALSE) && (Shell_loginTool == SHELL_BLUETOOTH_LOGIN))
 				{
-					cmdKP = KeyPad_GetRead_click();
-					cmdBT = Bluetooth_RxChar();
-					if		(cmdKP) {tempCharPass = cmdKP; Shell_loginTool = SHELL_KEYPAD_LOGIN;		}
-					else if	(cmdBT) {tempCharPass = cmdBT; Shell_loginTool = SHELL_BLUETOOTH_LOGIN; 	}
-					else			{tempCharPass = 0;		}
-
-					if((tempCharPass != '#') && (tempCharPass != 0))
-					{
-						LCD_WriteData('*');
-						tempStrPass[tempIndexPass] = tempCharPass;
-						++tempIndexPass;
-					}
-					else if(tempCharPass == '#')
-					{
-						tempStrPass[tempIndexPass] = '\0';
-						LCD_Clear();
-						
-						// if password true, login, break, 
-						// else if password false --> Shell_wrongUser();
-						Users_ReadEntry(usersList, tempStrUser, tempStrPasswordComp, &tempIsAdmin);
-						if (!strcmp(tempStrPasswordComp, tempStrPass))
-						{
-							LCD_Clear();
-
-							strcpy(loggedUser.username, tempStrUser); 
-							strcpy(loggedUser.password, tempStrPass);
-							loggedUser.isAdmin = tempIsAdmin;
-							available_login_trials = 3;
-							
-							if((loggedUser.isAdmin == FALSE) && (Shell_loginTool == SHELL_BLUETOOTH_LOGIN))
-							{
-								LCD_Clear();
-								LCD_WriteString("only admins can use bluetooth!");
-								_delay_ms(2000);
-								LCD_Clear();
-
-								Shell_login(usersList); //recursion
-								return;
-							}
-							else
-							{	
-								LCD_WriteString((u8*)"Welcome home ^_^");
-								Shell_Pause();
-								LCD_Clear();
-								break;
-							}
-						}
-						else
-						{
-							Shell_wrongUser();
-							tempCharPass =	tempIndexPass = 0;
-							tempIndexPass =	tempIndexUser = 0;
-							
-							LCD_WriteString((u8*)"pswd: ");
-						}
-					}
+					LCD_Clear();
+					LCD_WriteString("only admins can use bluetooth!");
+					_delay_ms(2000);
+					LCD_Clear();
+					
+					
+					Shell_login(usersList); 			//recursion
+					return;
 				}
-				break;
+				else
+				{	
+					LCD_WriteString((u8*)"Welcome home ^_^");
+					LCD_WriteString((u8*)"press # to cont");
+					Shell_Pause();
+					LCD_Clear();
+					LCD_WriteString((u8*)"A:menu");
+					return;
+				}
 			}
 			else
 			{
-				tempCharPass  =	tempCharUser  = 0;
-				tempIndexPass =	tempIndexUser = 0;
 				Shell_wrongUser();
-				LCD_WriteString((u8*)"user: ");
+				// LCD_WriteString((u8*)"pswd: ");
 			}
+		}
+		else
+		{
+			Shell_wrongUser();
+			LCD_WriteString((u8*)"user: ");
+			strcpy(tempStrUser, Shell_enterStr(FALSE));
+			LCD_Clear();
 		}
 	}
 
 
-	LCD_Clear();
-	LCD_WriteString((u8*)"Welcome user... ");
-	LCD_WriteString((u8*)"press # to cont");
-	Shell_Pause();
-	LCD_Clear();
-	LCD_WriteString("press A for manual. temp: ");
+	// LCD_Clear();
+	// LCD_WriteString((u8*)"Welcome home ^_^");
+	// LCD_WriteString((u8*)"press # to cont");
+	// Shell_Pause();
+	// LCD_Clear();
+	// LCD_WriteString("press A for manual. temp: ");
     
 }
 
@@ -175,11 +135,12 @@ void Shell_cmdChecker()
 	volatile u8 chBT = KeyPad_GetRead_click(),
 				chKP = Bluetooth_RxChar()    ;
 
-	if 		    (chKP)
+	if 		(chKP)
 	{
 		Shell_loginTool = SHELL_KEYPAD_LOGIN;			userCmd = chKP;
 	}
-	else if		(chBT)
+	else if	(chBT)
+	
 	{
 		Shell_loginTool = SHELL_BLUETOOTH_LOGIN;		userCmd = chBT;
 	}
@@ -250,15 +211,16 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			}
 			else if	(loggedUser.isAdmin == TRUE)
 			{
-				volatile u8 tempCharUser            = 0,
+				volatile u8 
+							// tempCharUser            = 0,
 							tempStrUser[20]         = {0},
-							tempIndexUser           = 0,
+							// tempIndexUser           = 0,
 				
-							tempCharPass            = 0,
-							tempStrPass[20]         = {0},
-							tempIndexPass           = 0,
+							// tempCharPass            = 0,
+							tempStrPass[20]         = {0};
+							// tempIndexPass           = 0,
 							
-							tempStrPasswordComp[20] = {0}	;
+							// tempStrPasswordComp[20] = {0}	;
 				
 				volatile bool tempIsAdmin = FALSE;
 
@@ -293,7 +255,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 				}
 			}
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			
 			
 		}break;
@@ -391,7 +353,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 				
 			
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			
 		}break;
 		case SHELL_CMD_DOOR_TOGGLE:
@@ -419,7 +381,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 				Shell_Pause();
 			}
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			
 			
 			
@@ -439,7 +401,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 
 			_delay_ms(1000);
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			
 			
 		}break;
@@ -458,7 +420,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 
 			_delay_ms(1000);
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			
 			
 			
@@ -478,7 +440,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 
 			_delay_ms(1000);
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			
 		}break;
 		case SHELL_CMD_LED4_TOGGLE:
@@ -496,7 +458,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 
 			_delay_ms(1000);
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			
 			
 		}break;
@@ -516,7 +478,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 
 			_delay_ms(1000);
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			
 			
 			
@@ -530,11 +492,11 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			LCD_WriteData(lvl);
 
 			// LED_DimmerVal(0);
-			LED_DimmerVal((lvl-48)*51);
+			LED_DimmerVal(((lvl-48) % 6)*51);
 
 			_delay_ms(1500);
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			_delay_ms(1500);
 			
 			
@@ -547,7 +509,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			LCD_WriteString("you chose AC Auto");
 			_delay_ms(1000);
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			
 			
 		}break;
@@ -588,7 +550,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			}
 			_delay_ms(1500);
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			
 			
 		}break;
@@ -611,7 +573,7 @@ void Shell_cmdExecuter(Users_usersList *usersList)
 			}
 			_delay_ms(1000);
 			LCD_Clear();
-			LCD_WriteString("press A for user manual");
+			LCD_WriteString("A:menu");
 			
 			
 			

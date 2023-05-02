@@ -209,7 +209,8 @@ while(1){
 
 	// LCD_Clear();
 	// LCD_WriteString("temp. ");
-	LCD_GoTo(1, 11);
+	LCD_GoTo(1, 6);
+	LCD_WriteString("temp ");
 	LCD_WriteInt(AC_currentTemperature());
 	LCD_WriteString(" C");
 
