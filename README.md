@@ -26,7 +26,7 @@ ATMega32 drivers for AMIT Kit with the following hardware (in the HAL layer). Us
 
 ## Date
 
-    start date: 23-01-2023                      -                  completed:     30-04-2023
+    start date: 23-01-2023                      -                  completed:     02-04-2023
 
 ### Aknowledgement
 
@@ -87,10 +87,11 @@ learned embedded systems interfacing from different instructors but special than
 
 ### Warnings
 
+* `saving linked lists in EEPROM` (users list) need to be modified
 * LCD and SevenSegments cannot be used together
 * sevenSegments must be used with parallel programming (NO SEQUENTIAL DELAY CAN BE USED to work properly)
 
 
 ### main()
 
-IT IS USED FOR TESTING DRIVERS. THE DRIVER YOU WANT TO TEST, UNCOMMENT "#define TESTING_DRIVER_NAME" and type the codes you want in its section, this is for ensuring no loss of old test
+IT IS ALSO USED FOR TESTING DRIVERS. THE DRIVER YOU WANT TO TEST, UNCOMMENT "#define TESTING_DRIVER_NAME" and type the codes you want in its section, this is for ensuring no loss of old test
