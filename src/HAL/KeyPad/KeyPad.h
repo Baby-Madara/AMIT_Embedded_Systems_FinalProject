@@ -9,9 +9,12 @@
 
 
 void KeyPad_Init();
-u8 KeyPad_GetRead();
-u8 KeyPad_GetRead_click();
 
+// Get Reading and return it (as a u8 character)
+u8 KeyPad_GetRead();
+
+//Makes Reading 1 time only for 1 char
+u8 KeyPad_GetRead_click();
 
 
 #endif	//KEYPAD_H_INCLUDED

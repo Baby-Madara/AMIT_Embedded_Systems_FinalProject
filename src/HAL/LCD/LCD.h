@@ -44,24 +44,24 @@ extern u8 LCD_cursorTracer;
 
 
 
-void LCD_Cycle();
+void LCD_Cycle();	//Latching
 
-void LCD_Init();
+void LCD_Init();	
 
-void LCD_WriteData(u8 data);
-void LCD_WriteCMD(u8 cmd);
-
-
-void LCD_Clear();
-void LCD_GoTo(u8 line, u8 col);
+void LCD_WriteData(u8 data);	//Give Data to LCD to display it	(one char) 
+void LCD_WriteCMD(u8 cmd);	//Give Command to LCD to Do it
 
 
-void LCD_WriteString(u8* str);
-void LCD_WriteStringWithLength(u8* str, s8 len);
-void LCD_WriteInt(s64 num);
-void LCD_WriteFloat(float64 num, u8 digits);
+void LCD_Clear();	
+void LCD_GoTo(u8 line, u8 col);	//Go to specific location in LCD (line max = 2, col max = 8)
 
-void LCD_WriteNumWithLength(float64 num, u8 len);
+
+void LCD_WriteString(u8* str);	//Write string (many char)
+void LCD_WriteStringWithLength(u8* str, s8 len);	//Write string (many char) with specific Length
+void LCD_WriteInt(s64 num);	//Write integer number (0 ==> 9)
+void LCD_WriteFloat(float64 num, u8 digits);	//Write Float Number (EX. 10.5)
+
+void LCD_WriteNumWithLength(float64 num, u8 len); //Write integer numbers (0 ==> 9)
 
 
 

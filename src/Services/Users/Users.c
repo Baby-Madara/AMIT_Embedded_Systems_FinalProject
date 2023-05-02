@@ -200,8 +200,14 @@ bool             Users_EditEntry      (Users_usersList *list,  u8 oldUser[],  u8
 
 
 
-void             Users_initList_EEPROM(Users_usersList_EEPROM *base,  u8 maxLength)
+void   Users_initList_EEPROM(Users_usersList_EEPROM *list,  u8 maxLength, u8 listAddr)
 {
+    //u8 len     u8 maxLen     u16 headPtr
+    EEPROM_writeChar(list->length, listAddr);
+    EEPROM_writeChar(list->maxLength, listAddr+1);
+    EEPROM_writeChar(list->headPtr, listAddr+1);
+    list->maxLength;
+    
     
     
 }

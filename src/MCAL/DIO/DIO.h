@@ -66,17 +66,28 @@
 #define DIO_A7_ANALOG	ADC_CH7
 
 
+//Sets Pin Mode (Output,Input)
 void DIO_PinMode			(u8 port, u8 pin, 	u8 mode	);
+
+//Write Value in bit 
 void DIO_DigitalWritePin	(u8 port, u8 pin, 	u8 val	);
-void DIO_DigitalTogglePin	(u8 port, u8 pin			);
-u8   DIO_DigitalReadPin		(u8 port, u8 pin			);
+
+void DIO_DigitalTogglePin	(u8 port, u8 pin			);  
+u8   DIO_DigitalReadPin		(u8 port, u8 pin			);  
 u8   DIO_ReturnOutputValue	(u8 port, u8 pin			);
 
 
+//Sets Reg Mode (Output,Input)
 void DIO_PortMode			(u8 port,		 	u8 mode	);
+
+//Write in all Bits in reg a value 
 void DIO_DigitalWritePort	(u8 port,		 	u8 val	);
+
 void DIO_DigitalTogglePort	(u8 port					);
+
+//Read Value from Reg
 u8   DIO_DigitalReadPort	(u8 port					);
+
 u8   DIO_DigitalReadPort	(u8 port					);
 u8   DIO_DigitalReadPort	(u8 port					);
 

@@ -6,9 +6,9 @@
 #include "../../UTILS/STD_Types.h"
 #include "../../Memory_map/mem_map.h"
 // #include <avr/interrupt.h>
-
-void GI_Enable();
-void GI_Disable();
+/*this file is used to define all vector needed for setting interrupts*/
+void GI_Enable();		// enable general interrupt
+void GI_Disable();		// disable general interrupt
 
 
 

@@ -25,13 +25,13 @@
 
 // **********************		EX_Int0 		********************** //
 
-void EX_Int0_D2_Init		(	u8 signalMode);
-void EX_Int0_D2_Enable		(	void);
-void EX_Int0_D2_Disable	    (	void);
+void EX_Int0_D2_Init		(	u8 signalMode);                         // start intialise external intterupt (0) sequance that will be on pin d2
+void EX_Int0_D2_Enable		(	void);                                  //enable the intterupt 0 and allow it to start aactivate
+void EX_Int0_D2_Disable	    (	void);                                  // disablle and prevent interupt (0)
 
-void EX_Int0_D2_SignalMode	(	u8 signalMode);
-void EX_Int0_D2_SetCallBack ( 	void(*ptrFn)(void) );
-void EX_Int0_D2_ClearFlag	(	void);
+void EX_Int0_D2_SignalMode	(	u8 signalMode);                         //used to receive signals
+void EX_Int0_D2_SetCallBack ( 	void(*ptrFn)(void) );                   // set the function to be called in intrupt(0)
+void EX_Int0_D2_ClearFlag	(	void);                                  //clear intterupt flag
 
 void INT0_vect(void) __attribute__ ((used)) __attribute__ ((signal)); 		//(signal,__INTR_ATTRS)
 
@@ -40,13 +40,13 @@ void INT0_vect(void) __attribute__ ((used)) __attribute__ ((signal)); 		//(signa
 // **********************		EX_Int1 		********************** //
 
 
-void EX_Int1_D3_Init		(	u8 signalMode);
-void EX_Int1_D3_Enable		(	void);
-void EX_Int1_D3_Disable	(	void);
+void EX_Int1_D3_Init		(	u8 signalMode);                         // start intialise external intterupt (1) sequance  that will be on pin d3
+void EX_Int1_D3_Enable		(	void);                                  //enable the intterupt and allow it to activate
+void EX_Int1_D3_Disable	(	void);                                      // disablle and prevent interupt (1)
 
-void EX_Int1_D3_SignalMode	(	u8 signalMode);
-void EX_Int1_D3_SetCallBack( 	void(*ptrFn)(void) );
-void EX_Int1_D3_ClearFlag	(	void);
+void EX_Int1_D3_SignalMode	(	u8 signalMode);                         //used to receive signals
+void EX_Int1_D3_SetCallBack( 	void(*ptrFn)(void) );                   // set the function to be called in intrupt (1)
+void EX_Int1_D3_ClearFlag	(	void);                                  //clear intterupt flag
 
 void INT1_vect (void) __attribute__ ((used)) __attribute__ ((signal)); 		//(signal,__INTR_ATTRS)
 
@@ -55,13 +55,13 @@ void INT1_vect (void) __attribute__ ((used)) __attribute__ ((signal)); 		//(sign
 // **********************		EX_Int2 		********************** //
 
 
-void EX_Int2_B2_Init		(	u8 signalMode);
-void EX_Int2_B2_Enable		(	void);
-void EX_Int2_B2_Disable	(	void);
+void EX_Int2_B2_Init		(	u8 signalMode);                             // start intialise external intterupt (3)  sequance that will be on pin b2
+void EX_Int2_B2_Enable		(	void);                                      //enable the intterupt and allow it to start activate
+void EX_Int2_B2_Disable	(	void);                                          // disablle and prevent interupt (1)
 
-void EX_Int2_B2_SignalMode	(	u8 signalMode);
-void EX_Int2_B2_SetCallBack( 	void(*ptrFn)(void) );
-void EX_Int2_B2_ClearFlag	(	void);
+void EX_Int2_B2_SignalMode	(	u8 signalMode);                             //used to receive signals
+void EX_Int2_B2_SetCallBack( 	void(*ptrFn)(void) );                       // set the function to be called in intrupt(2)
+void EX_Int2_B2_ClearFlag	(	void);                                      //clear intterupt flag
 
 void INT2_vect (void) __attribute__ ((used)) __attribute__ ((signal)); 		//(signal,__INTR_ATTRS)
 

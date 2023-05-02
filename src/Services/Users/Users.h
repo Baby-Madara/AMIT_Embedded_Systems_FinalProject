@@ -14,9 +14,7 @@
 
 /**
  *  
- * "main" is just a test code
- * "volatile" keyword is added so if something wrong happens, I will be clear it is absloutly from the code algorithm
- * some datatypes and parameters have been modified to work properly (ex. student ID shouldnt be of type u8 is the maximum ID value would be 255 then, and it is not an ID - i had to pass pointer to dataBase entry as an argument for some functions...)
+ * some datatypes and parameters have been modified to work properly
  * WARNINGI:       when passing list of "subjects IDs" you should explicitly cast the list (the array of subject IDs)
  * WARNINGII:      working with VSCode so i needed to add "SDB.c" in terminal,         (    or to addt #include "SDB.c" at the end of "main.c" -_-         ) ...
  *                 cd "d:\Activities - Projects\AMIT Embedded\AMIT_proj_AhmedFarahat_VSCode\" ; if ($?) { gcc -std=c99 main.c SDB.c -o main } ; if ($?) { .\main }
@@ -108,15 +106,13 @@ typedef struct Users_usersList_EEPROM{
 }Users_usersList_EEPROM;                                        //"dataBase" is just the entry for the linked list node which hold the data, "dataBase" also holds and tracks the database state (length, max length that user will set it to 10 btw, aaaannnd the entry for the first node)
 
 
-void             Users_initList_EEPROM(Users_usersList_EEPROM *base,  u8 maxLength);
-
-
-
-void             Users_userNodeInit_EEPROM   (Users_userNode_EEPROM *node);
-Users_userNode_EEPROM*  Users_newNode_EEPROM        ();
 
 
 // **************************  REQUIRED  ************************* //
+void   Users_initList_EEPROM(Users_usersList_EEPROM *list,  u8 maxLength, u8 listAddr);
+
+void             Users_userNodeInit_EEPROM   (Users_userNode_EEPROM *node);
+Users_userNode_EEPROM*  Users_newNode_EEPROM        ();
 
 
 bool   Users_AddEntry_EEPROM     (Users_usersList_EEPROM *list,  u8 username[20],  u8  password[20],    bool isAdmin);
@@ -127,8 +123,6 @@ void   Users_DeleteEntry_EEPROM  (Users_usersList_EEPROM *list,  u8 username[20]
 bool   Users_IsFull_EEPROM       (Users_usersList_EEPROM *list);                                                                  // 1 if full
 u8     Users_GetUsedSize_EEPROM  (Users_usersList_EEPROM *list);
 void   Users_GetUsersList_EEPROM (Users_usersList_EEPROM *list,  u8 *count,        u8 userList[][20]);
-
-
 
 void Users_SaveNodeInEEPROM(Users_userNode_EEPROM node, u16 addr);
 

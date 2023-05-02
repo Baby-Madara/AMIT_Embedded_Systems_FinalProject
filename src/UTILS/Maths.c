@@ -20,7 +20,6 @@ void reverse(u8 *str, s32 len){
 // d is the number of digits required in the output.
 // If d is more than the number of digits in x,
 // then 0s are added at the beginning.
-
 s64 intToStr(s32 x, u8 str[], s32 d){
 
 	s64 i = 0;

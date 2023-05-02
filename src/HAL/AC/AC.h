@@ -12,11 +12,14 @@
 
 
 
-
+// manualy control the air conditioner either on or off
 void AC_manualLvl();
+
+
+// automaticaly control air conditioner according to temperature (needs no input)
 void AC_AutoLvl();
 
+//  check temperature read by sensor and  return it
 u8   AC_currentTemperature();
-
 
 #endif

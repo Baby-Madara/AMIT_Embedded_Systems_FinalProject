@@ -1,7 +1,16 @@
 /**
- * @author			Ahmed Farahat : @Baby-Madara ahmed.farahat1@msa.edu.eg - ahmedfarahat1177@gmail.com - +201119027639
+ * @project:		Smart home using ATMega32A
+ * @IDE:			platformIO on VSCode
+ * @connections:	shown in @pinout (the outer layers is the last connections)
+ * 
+ * @author			Ahmed Farahat : @Baby-Madara  	ahmed.farahat1@msa.edu.eg - ahmedfarahat1177@gmail.com - +201119027639
+ * @author			Shehab Ashraf : @ShehabAshraf 	
+ * @author			Yousef Gamal  : @yousefamar5678 
+ * @author			Tarek Fouad   : @tarekfouad2000 
+ * @author			Mohamed Magdy : 
+ * 
  * @details			ATMega32 drivers for AMIT Kit with the following hardware (in the HAL layer). Using PlatformIO as IDE on VS Code
- * @date:			start date: 24-09-2022			-		completed: 	__-__-2022
+ * @date			start date: 24-09-2022			-		completed: 	02-05-2023
  * @aknowledgement:	learned embedded systems interfacing from different instructors but special thanks for Moatasem El-Sayed & Sara Abd Rabbo
  * @datasheet:		for any technical details, refer to datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/doc2503.pdf
  * 	DIO				|
@@ -38,15 +47,15 @@
  *  
  * @sw_archeticture: 
  *     **************************************** Software Architecture *******************************************************************************
- *     *   [UTILS]  || [main]        |                     main.c                                                                                   *
- *     *            ||------------------------------------------------------------------------------------------------------------------------------*
- *     *            || [Services]    |     users_LinkedList - Shell                                                                                 *
- *     *            ||------------------------------------------------------------------------------------------------------------------------------*
- *     *            || [HAL]         | Lamps[1:5] - Dimmer[L6] - Door ctrlr - AC ctrlr - alarm - LCD - keaypad - tempSensor - EEPROM - Btns         *
- *     *            ||------------------------------------------------------------------------------------------------------------------------------*
- *     *  STD_Types || [MCAL]        | DIO - General_Interrupts - External_Interrupts - ADC - Timers WDTimer - UART - I2C - SPI                     *
- *     *            ||------------------------------------------------------------------------------------------------------------------------------*
- *     *  BIT_MATH  || [MEM_MAPPING] |                 MCU registers                                                                                *
+ *     *|   [UTILS]   || [main]        |                     main.c                                                                                   *
+ *     *|             ||------------------------------------------------------------------------------------------------------------------------------*
+ *     *|             || [Services]    |     users_LinkedList - Shell                                                                                 *
+ *     *|             ||------------------------------------------------------------------------------------------------------------------------------*
+ *     *|             || [HAL]         | Lamps[1:5] - Dimmer[L6] - Door ctrlr - AC ctrlr - alarm - LCD - keaypad - tempSensor - EEPROM - Btns         *
+ *     *|             ||------------------------------------------------------------------------------------------------------------------------------*
+ *     *|  STD_Types  || [MCAL]        | DIO - General_Interrupts - External_Interrupts - ADC - Timers WDTimer - UART - I2C - SPI                     *
+ *     *|             ||------------------------------------------------------------------------------------------------------------------------------*
+ *     *|  BIT_MATH   || [MEM_MAPPING] |                 MCU registers                                                                                *
  *     **********************************************************************************************************************************************
  *  
  * @warnings:		
@@ -55,7 +64,7 @@
  * 					-
  *  
  *  
- * @main: 			IT IS USED FOR TESTING DRIVERS. THE DRIVER YOU WANT TO TEST, UNCOMMENT "#define TESTING_DRIVER_NAME" and type the codes you want in its section, this is for ensuring no loss of old trials
+ * @main: 			IT IS USED FOR TESTING DRIVERS (before the last project). THE DRIVER YOU WANT TO TEST, UNCOMMENT "#define <TESTING_DRIVER_NAME>" and type the codes you want in its section, this is for ensuring no loss of old trials
  * 
  */
 
@@ -447,6 +456,17 @@ while(1){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 #ifdef TESTING_TIMERS				/////////////////////
 
 
@@ -490,6 +510,7 @@ while (1)
 }
 #endif
 
+
 #ifdef TESTING_ADC					/////////////////////
 
 u8 i=0;
@@ -522,6 +543,7 @@ while (1)
 }
 }
 #endif
+
 
 #ifdef TESTING_EX_INTERRUPTS		/////////////////////
 
@@ -559,6 +581,7 @@ while (1){
 
 #endif
 
+
 #ifdef TESTING_WATCHDOG_TIMER		/////////////////////
 
 
@@ -570,6 +593,7 @@ while(1){
 }
 }
 #endif
+
 
 #ifdef TESTING_SERVO				/////////////////////
 
@@ -666,6 +690,7 @@ int main()
 }
 #endif
 
+
 #ifdef TESTING_SEVEN_SEGMENTS		/////////////////////
 int main(){
 
@@ -679,6 +704,7 @@ while (1)
 }
 }
 #endif
+
 
 #ifdef TESTING_KEYPAD				/////////////////////
 int main(){
@@ -697,6 +723,7 @@ while(1){
 }
 #endif
 
+
 #ifdef TESTING_LCD					/////////////////////
 int main(){
 	volatile u8 i=0;
@@ -712,6 +739,7 @@ while (1)
 }
 #endif
 
+
 #ifdef TESTING_BUTTONS				/////////////////////
 int main(){
 while(1){
@@ -719,6 +747,7 @@ while(1){
 }
 }
 #endif
+
 
 #ifdef TESTING_LEDS					/////////////////////
 int main(){
@@ -730,6 +759,7 @@ while(1){
 }
 #endif
 
+
 #ifdef TESTING_DIO					/////////////////////
 int main(){
 while(1){
@@ -738,6 +768,7 @@ while(1){
 }
 #endif
 
+
 #ifdef TESTING_BIT_MATH				/////////////////////
 int main(){
 while(1){
@@ -745,9 +776,6 @@ while(1){
 }
 }
 #endif
-
-
-
 
 
 #ifdef GENERAL_TEST					/////////////////////

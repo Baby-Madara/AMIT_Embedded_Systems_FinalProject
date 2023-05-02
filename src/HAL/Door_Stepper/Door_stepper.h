@@ -15,10 +15,21 @@
 #define STEPPER_RIGHT 0
 #define STEPPER_LEFT 1
 
+
+// set pins of motor to output
 void Stepper_init();
+
+/**
+ * rotates stepper motor with given number of steps , 
+ * and direction either clock wise ccw and sets time between each step
+*/
 void Stepper_rotate(u8 Rotate_value, u8 Rotate_direction, u8 stepTime);
 
+
+// opens door using stepper motor
 void Stepper_open();
+
+// closes door using stepper motor
 void Stepper_close();
 
 #endif   //door_H_INCLUDED
