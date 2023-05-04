@@ -33,7 +33,9 @@
 			"eepromtrial.h": "c",
 			"stdlib.h": "c",
 			"time.h": "c",
-			"door_stepper.h": "c"
+			"door_stepper.h": "c",
+			"buttons.h": "c",
+			"maths.h": "c"
 		},
 		"MicroPython.executeButton": [
 			{

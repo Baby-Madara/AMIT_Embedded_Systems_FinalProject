@@ -1,4 +1,4 @@
-#include "EEPROM.h"
+#include "EEPROM_data.h"
 #include "../../Services/Users/Users.h"
 
 
@@ -12,7 +12,7 @@ Read Operation :
 4. Trigger the EEPROM read operation by setting EERE (EEPROM Read Enable).
 5. Wait for some time (about 1ms) and collect the read data from EEDR.*/
 /*To read the data from the EEPROM given the Address*/
- u8 EEPROM_read(short address){
+u8 EEPROM_read(short address){
 	//Setup Address Register
 	EEARL = (u8)address; //LOW Address
 	EEARH = (u8)(address>>8); //High Address

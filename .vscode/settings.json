@@ -19,6 +19,13 @@
     ],
     "files.associations": {
         "bitmath.h": "c",
-        "std_types.h": "c"
+        "std_types.h": "c",
+        "shell.h": "c",
+        "leds.h": "c",
+        "keypad.h": "c",
+        "delay.h": "c",
+        "usart.h": "c",
+        "eeprom_data.h": "c",
+        "dio.h": "c"
     }
 }

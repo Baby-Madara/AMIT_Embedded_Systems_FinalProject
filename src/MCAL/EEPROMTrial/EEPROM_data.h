@@ -7,7 +7,7 @@
 #define EEPROM_H
 
 
-char EEPROM_read(short address);//read data from eeprom
+u8 EEPROM_read(short address);//read data from eeprom
 void EEPROM_write(short address,  u8 data);// write data to eeprom
 void Write_list_struct(Users_usersList* Pointer_User_List);
 void Write_Struct_EEPROM(Users_userNode*Pointer_struct,u8 User_Number_in_array);// write all data to struct
