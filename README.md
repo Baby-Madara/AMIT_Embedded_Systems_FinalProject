@@ -9,10 +9,10 @@ This is Embedded Systems Course Final Project
 | Name          | gitHub username | email address                                          | phone number  |
 |---------------|-----------------|--------------------------------------------------------|---------------|
 | Ahmed Farahat | @Baby-Madara    | ahmed.farahat1@msa.edu.eg - ahmedfarahat1177@gmail.com | +201119027639 |
-| Shehab Ashraf | @ShehabAshraf   |||
+| Shehab Ashraf | @ShehabAshraf   | shehabashraf292@gmail.com                              | +201123829211 |
 | Yousef Gamal  | @yousefamar5678 | ygmal7654@gmail.com - yousef.gamal@msa.edu.eg          | +201200563052 |
-| Tarek Fouad   | @tarekfouad2000 |||
-| Mohamed Magdy ||||
+| Tarek Fouad   | @tarekfouad2000 | Tarek.foaud@msa.edu.eg                                 | +201033684944 |
+| Mohamed Magdy |                 | Mm123459m@gmail.com                                    | +201007328570 |
 
 
 
