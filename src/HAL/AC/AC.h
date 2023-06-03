@@ -20,6 +20,6 @@ void AC_manualLvl();
 void AC_AutoLvl();
 
 //  check temperature read by sensor and  return it
-u8   AC_currentTemperature();
+u16   AC_currentTemperature();
 
 #endif

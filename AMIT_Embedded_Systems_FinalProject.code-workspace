@@ -35,7 +35,10 @@
 			"time.h": "c",
 			"door_stepper.h": "c",
 			"buttons.h": "c",
-			"maths.h": "c"
+			"maths.h": "c",
+			"lcd_config.h": "c",
+			"spi.h": "c",
+			"icu.h": "c"
 		},
 		"MicroPython.executeButton": [
 			{

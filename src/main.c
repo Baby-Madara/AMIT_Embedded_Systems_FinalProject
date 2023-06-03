@@ -187,8 +187,8 @@ while(1){
 
 #ifdef TESTING_SHELL
 
-
 static Users_usersList usersList;
+
 int main(){
 	
 	Users_initList(&usersList, 20);
